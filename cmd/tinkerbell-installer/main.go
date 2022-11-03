@@ -9,18 +9,6 @@ import (
 	"github.com/moadqassem/kubetink/pkg/resources"
 )
 
-type Options struct {
-	Verbose         bool
-	ChartsDirectory string
-}
-
-var options = &Options{}
-
-func (o *Options) CopyInto(other *Options) {
-	other.ChartsDirectory = o.ChartsDirectory
-	other.Verbose = o.Verbose
-}
-
 func main() {
 	logger := logrus.New()
 	logger.Formatter = &logrus.TextFormatter{
