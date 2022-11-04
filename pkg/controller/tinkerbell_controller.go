@@ -3,17 +3,18 @@ package controller
 import (
 	"context"
 	"fmt"
+
 	"go.uber.org/zap"
-	corev1 "k8s.io/api/core/v1"
-	rbacv1 "k8s.io/api/rbac/v1"
-	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	appsv1 "k8s.io/api/apps/v1"
+	corev1 "k8s.io/api/core/v1"
+	rbacv1 "k8s.io/api/rbac/v1"
 	ctrlruntime "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
+	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	"sigs.k8s.io/controller-runtime/pkg/source"
 )
 
@@ -60,14 +61,42 @@ type Reconciler struct {
 }
 
 func (r *Reconciler) Reconcile(ctx context.Context, req ctrlruntime.Request) (reconcile.Result, error) {
-	r.log.Info("Reconciling default OSP resource..")
+	r.log.Info("Reconciling tinkerbell resources..")
 
 	if err := r.reconcile(ctx); err != nil {
 		return reconcile.Result{}, err
 	}
+
 	return reconcile.Result{}, nil
 }
 
 func (r *Reconciler) reconcile(ctx context.Context) error {
+	if err := r.ensureTinkerbellServiceAccounts(ctx); err != nil {
+		return fmt.Errorf("failed to ensure tinkerbell service accounts: %v", err)
+	}
+
+	if err := r.ensureTinkerbellClusterRole(ctx); err != nil {
+		return fmt.Errorf("failed to ensure tinkerbell cluster role: %v", err)
+	}
+
+	if err := r.ensureTinkerbellClusterRoleBinding(ctx); err != nil {
+		return fmt.Errorf("failed to ensure tinkerbell cluster role bindings: %v", err)
+	}
+
+	if err := r.ensureTinkerbellRole(ctx); err != nil {
+		return fmt.Errorf("failed to ensure tinkerbell role: %v", err)
+	}
+
+	if err := r.ensureTinkerbellRoleBinding(ctx); err != nil {
+		return fmt.Errorf("failed to ensure tinkerbell role binding: %v", err)
+	}
+
+	if err := r.ensureTinkerbellServices(ctx); err != nil {
+		return fmt.Errorf("failed to ensure tinkerbell services: %v", err)
+	}
+
+	if err := r.ensureTinkerbellDeployments(ctx); err != nil {
+		return fmt.Errorf("failed to ensure tinkerbell deployments: %v", err)
+	}
 	return nil
 }
