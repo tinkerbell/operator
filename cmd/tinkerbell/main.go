@@ -2,10 +2,13 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"go.uber.org/zap"
 
-	"k8s.io/klog/v2"
+	kubetinkctrl "github.com/moadqassem/kubetink/pkg/controller"
+
+	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
@@ -15,14 +18,25 @@ func main() {
 	// Configure logger
 	logger, err := zap.NewProduction()
 	if err != nil {
-		klog.Fatal(err)
+		fmt.Printf("failed to create logger: %v", err)
+		os.Exit(1)
 	}
+
 	log := logger.Sugar()
 
 	opts := newControllerOptions()
 	mgr, err := createManager(opts)
 	if err != nil {
-		klog.Fatalf("failed to create runtime manager: %v", err)
+		log.Fatalf("failed to create runtime manager: %v", err)
+	}
+
+	if err := kubetinkctrl.Add(mgr, log, opts.namespace, opts.workerCount); err != nil {
+		log.Fatalf("failed to add kubetink controller to manager: %v", err)
+	}
+
+	log.Info("starting manager")
+	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
+		log.Fatalf("Failed to start kubetink controller: %v", zap.Error(err))
 	}
 }
 
