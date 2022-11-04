@@ -11,8 +11,6 @@ import (
 
 const (
 	serviceAccountName = "hegel"
-	roleName           = "hegel"
-	roleBindingName    = "hegel"
 )
 
 func CreateServiceAccount(ctx context.Context, client ctrlruntimeclient.Client, ns string) error {
