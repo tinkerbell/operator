@@ -3,7 +3,8 @@ package resources
 import semverlib "github.com/Masterminds/semver/v3"
 
 const (
-	TinkerbellVersion = "v0.0.1"
+	TinkerbellVersion   = "v0.0.1"
+	TinkerbellNamespace = "tinkerbell"
 )
 
 var (
