@@ -42,7 +42,7 @@ func CreateDeployment(ctx context.Context, client ctrlruntimeclient.Client, ns s
 							Name:            "boots",
 							Image:           "quay.io/tinkerbell/boots:v0.8.0",
 							ImagePullPolicy: corev1.PullIfNotPresent,
-							Args:            []string{"--dhcp-addr", "0.0.0.0:67"},
+							Args:            []string{"--dhcp-addr", "0.0.0.0:67", "--kube-namespace", ns},
 							Env:             parsedEnvVars(),
 							Resources: corev1.ResourceRequirements{
 								Requests: corev1.ResourceList{
@@ -79,7 +79,7 @@ func parsedEnvVars() []corev1.EnvVar {
 		{
 			Name: "TRUSTED_PROXIES",
 			// TODO: pass the TRUSTED_PROXIES as a command line
-			Value: "",
+			Value: "10.244.0.0/24,10.244.1.0/24,10.244.2.0/24",
 		},
 		{
 			Name:  "DATA_MODEL_VERSION",
@@ -96,22 +96,23 @@ func parsedEnvVars() []corev1.EnvVar {
 		{
 			Name: "MIRROR_BASE_URL",
 			// TODO: pass the MIRROR_BASE_URL as a command line
-			Value: "",
+			// TODO: configure http(s) scheme for MIRROR_BASE_URL
+			Value: "http://10.10.15.153",
 		},
 		{
 			Name: "BOOTS_OSIE_PATH_OVERRIDE",
 			// TODO: pass the BOOTS_OSIE_PATH_OVERRIDE as a command line
-			Value: "",
+			Value: "10.10.15.153",
 		},
 		{
 			Name: "PUBLIC_IP",
 			// TODO: pass the PUBLIC_IP as a command line
-			Value: "",
+			Value: "10.10.15.153",
 		},
 		{
 			Name: "PUBLIC_SYSLOG_FQDN",
 			// TODO: pass the PUBLIC_SYSLOG_FQDN as a command line
-			Value: "",
+			Value: "10.10.15.153",
 		},
 		{
 			Name:  "SYSLOG_BIND",
@@ -120,7 +121,7 @@ func parsedEnvVars() []corev1.EnvVar {
 		{
 			Name: "TINKERBELL_GRPC_AUTHORITY",
 			// TODO: pass the TINKERBELL_GRPC_AUTHORITY as a command line
-			Value: "",
+			Value: "10.10.15.153",
 		},
 		{
 			Name:  "TINKERBELL_TLS",

@@ -145,8 +145,7 @@ func CreateTinkStackDeployment(ctx context.Context, client ctrlruntimeclient.Cli
 			Replicas: ptr.Int32(1),
 			Selector: &metav1.LabelSelector{
 				MatchLabels: map[string]string{
-					"app":   "tink-stack",
-					"stack": "tinkerbell",
+					"app": "tink-stack",
 				},
 			},
 			Template: corev1.PodTemplateSpec{
@@ -276,6 +275,9 @@ func CreateTinkStackDeployment(ctx context.Context, client ctrlruntimeclient.Cli
 							Name: "nginx-conf",
 							VolumeSource: corev1.VolumeSource{
 								ConfigMap: &corev1.ConfigMapVolumeSource{
+									LocalObjectReference: corev1.LocalObjectReference{
+										Name: "nginx-conf",
+									},
 									Items: []corev1.KeyToPath{
 										{
 											Key:  "nginx.conf",

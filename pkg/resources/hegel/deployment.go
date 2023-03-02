@@ -42,12 +42,12 @@ func CreateDeployment(ctx context.Context, client ctrlruntimeclient.Client, ns s
 							Name:            "hegel",
 							Image:           "quay.io/tinkerbell/hegel:v0.8.0",
 							ImagePullPolicy: corev1.PullIfNotPresent,
-							Args:            []string{"--data-model", "kubernetes", "--http-port", "50061"},
+							Args:            []string{"--data-model", "kubernetes", "--kube-namespace", ns, "--http-port", "50061"},
 							Env: []corev1.EnvVar{
 								{
 									Name: "HEGEL_TRUSTED_PROXIES",
 									// TODO: pass the TRUSTED_PROXIES as a command line
-									Value: "",
+									Value: "10.244.0.0/24,10.244.1.0/24,10.244.2.0/24",
 								},
 							},
 							Resources: corev1.ResourceRequirements{
