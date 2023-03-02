@@ -29,7 +29,7 @@ func newControllerOptions() *controllerRunOptions {
 	flag.IntVar(&opts.workerCount, "worker-count", 1, "Number of workers which process the clusters in parallel.")
 	flag.StringVar(&opts.overwriteRegistry, "overwrite-registry", "", "Registry to use for all images")
 	flag.StringVar(&opts.dockerPullConfigJSONFile, "docker-pull-config-json-file", "", "The file containing the docker auth config.")
-	flag.StringVar(&opts.namespace, "namespace", "kube-system", "The namespace where the tinkerbell controller runs in.")
+	flag.StringVar(&opts.namespace, "namespace", "tinkerbell", "The namespace where the tinkerbell controller runs in.")
 	flag.StringVar(&opts.healthProbeAddress, "health-probe-address", "127.0.0.1:8085", "The address on which the liveness check on /healthz and readiness check on /readyz will be available")
 	flag.StringVar(&opts.metricsAddress, "metrics-address", "127.0.0.1:8080", "The address on which Prometheus metrics will be available under /metrics")
 
