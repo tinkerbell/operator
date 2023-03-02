@@ -61,7 +61,7 @@ func CreateDeployment(ctx context.Context, client ctrlruntimeclient.Client, ns s
 								{
 									Name: "HEGEL_TRUSTED_PROXIES",
 									// TODO: pass the TRUSTED_PROXIES as a command line
-									Value: "",
+									Value: "10.244.0.0/24,10.244.1.0/24,10.244.2.0/24",
 								},
 							},
 							LivenessProbe: &corev1.Probe{
