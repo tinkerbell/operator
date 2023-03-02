@@ -40,17 +40,13 @@ func Add(mgr manager.Manager, log *zap.SugaredLogger, namespace string, workerCo
 		&appsv1.Deployment{},
 		&corev1.Service{},
 		&corev1.ServiceAccount{},
-		&rbacv1.ClusterRole{},
-		&rbacv1.ClusterRoleBinding{},
 		&rbacv1.Role{},
 		&rbacv1.RoleBinding{},
 	}
 
 	for _, t := range typesToWatch {
-		if err := c.Watch(&source.Kind{Type: t}, &handler.EnqueueRequestForObject{},
-			predicate.NewPredicateFuncs(func(o client.Object) bool {
-				return o.GetNamespace() == namespace
-			}), filterTinkerbellResourcesPredicate()); err != nil {
+		if err := c.Watch(&source.Kind{Type: t}, &handler.EnqueueRequestForObject{}); //filterTinkerbellResourcesPredicate(),
+		err != nil {
 			return fmt.Errorf("failed to create watch for %T: %w", t, err)
 		}
 	}
