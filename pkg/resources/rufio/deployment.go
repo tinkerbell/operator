@@ -56,7 +56,6 @@ func CreateDeployment(ctx context.Context, client ctrlruntimeclient.Client, ns s
 								AllowPrivilegeEscalation: ptr.Bool(false),
 							},
 							ImagePullPolicy: corev1.PullIfNotPresent,
-							Args:            []string{"--leader-elect"},
 							Env: []corev1.EnvVar{
 								{
 									Name: "HEGEL_TRUSTED_PROXIES",

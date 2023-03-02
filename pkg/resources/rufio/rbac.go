@@ -18,11 +18,10 @@ const (
 	roleBinding = "rufio-leader-election-role-binding"
 )
 
-func CreateClusterRole(ctx context.Context, client ctrlruntimeclient.Client, ns string) error {
-	clusterRole := &rbacv1.Role{
+func CreateClusterRole(ctx context.Context, client ctrlruntimeclient.Client) error {
+	clusterRole := &rbacv1.ClusterRole{
 		ObjectMeta: v1.ObjectMeta{
-			Name:      clusterRole,
-			Namespace: ns,
+			Name: clusterRole,
 		},
 		Rules: []rbacv1.PolicyRule{
 			{
@@ -85,10 +84,9 @@ func CreateClusterRole(ctx context.Context, client ctrlruntimeclient.Client, ns 
 }
 
 func CreateClusterRoleBinding(ctx context.Context, client ctrlruntimeclient.Client, ns string) error {
-	clusterRoleBinding := &rbacv1.RoleBinding{
+	clusterRoleBinding := &rbacv1.ClusterRoleBinding{
 		ObjectMeta: v1.ObjectMeta{
-			Name:      clusterRoleBinding,
-			Namespace: ns,
+			Name: clusterRoleBinding,
 		},
 		Subjects: []rbacv1.Subject{
 			{
@@ -99,7 +97,7 @@ func CreateClusterRoleBinding(ctx context.Context, client ctrlruntimeclient.Clie
 		},
 		RoleRef: rbacv1.RoleRef{
 			APIGroup: rbacv1.GroupName,
-			Kind:     "Role",
+			Kind:     "ClusterRole",
 			Name:     clusterRole,
 		},
 	}
