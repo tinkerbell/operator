@@ -37,16 +37,16 @@ func Add(mgr manager.Manager, log *zap.SugaredLogger, namespace string, workerCo
 	}
 
 	typesToWatch := []client.Object{
-		&appsv1.Deployment{},
+		&corev1.Namespace{},
 		&corev1.Service{},
 		&corev1.ServiceAccount{},
+		&appsv1.Deployment{},
 		&rbacv1.Role{},
 		&rbacv1.RoleBinding{},
 	}
 
 	for _, t := range typesToWatch {
-		if err := c.Watch(&source.Kind{Type: t}, &handler.EnqueueRequestForObject{}); //filterTinkerbellResourcesPredicate(),
-		err != nil {
+		if err := c.Watch(&source.Kind{Type: t}, &handler.EnqueueRequestForObject{}); err != nil {
 			return fmt.Errorf("failed to create watch for %T: %w", t, err)
 		}
 	}
@@ -73,6 +73,10 @@ func (r *Reconciler) Reconcile(ctx context.Context, req ctrlruntime.Request) (re
 }
 
 func (r *Reconciler) reconcile(ctx context.Context) error {
+	if err := r.ensureTinkerbellNamespace(ctx); err != nil {
+		return fmt.Errorf("failed to ensure tinkerbell namespace: %v", err)
+	}
+
 	if err := r.ensureTinkerbellServiceAccounts(ctx); err != nil {
 		return fmt.Errorf("failed to ensure tinkerbell service accounts: %v", err)
 	}
@@ -95,6 +99,10 @@ func (r *Reconciler) reconcile(ctx context.Context) error {
 
 	if err := r.ensureTinkerbellServices(ctx); err != nil {
 		return fmt.Errorf("failed to ensure tinkerbell services: %v", err)
+	}
+
+	if err := r.ensureTinkerbellConfigMaps(ctx); err != nil {
+		return fmt.Errorf("failed to ensure tinkerbell stack configmaps: %v", err)
 	}
 
 	if err := r.ensureTinkerbellDeployments(ctx); err != nil {
