@@ -11,10 +11,10 @@ import (
 )
 
 const (
-	tinkServerClusterRole        = "tink-server"
+	tinkServerClusterRole        = "tink-server-cluster-role"
 	tinkServerClusterRoleBinding = "tink-server-cluster-role-binding"
 
-	tinkControllerClusterRole        = "tink-controller"
+	tinkControllerClusterRole        = "tink-controller-cluster-role"
 	tinkControllerClusterRoleBinding = "tink-controller-cluster-role-binding"
 
 	role        = "tink-leader-election-role"
