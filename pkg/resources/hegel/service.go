@@ -27,7 +27,7 @@ func CreateService(ctx context.Context, client ctrlruntimeclient.Client, ns stri
 			Ports: []corev1.ServicePort{
 				{
 					Port:       50061,
-					TargetPort: intstr.IntOrString{StrVal: "hegel-http"},
+					TargetPort: intstr.IntOrString{IntVal: 50061},
 					Protocol:   corev1.ProtocolTCP,
 				},
 			},

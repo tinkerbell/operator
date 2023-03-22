@@ -27,7 +27,7 @@ func CreateService(ctx context.Context, client ctrlruntimeclient.Client, ns stri
 			Ports: []corev1.ServicePort{
 				{
 					Port:       42113,
-					TargetPort: intstr.IntOrString{StrVal: "tink-grpc"},
+					TargetPort: intstr.IntOrString{IntVal: 42113},
 					Protocol:   corev1.ProtocolTCP,
 				},
 			},
