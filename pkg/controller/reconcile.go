@@ -43,19 +43,19 @@ func (r *Reconciler) ensureTinkerbellServiceAccounts(ctx context.Context) error 
 }
 
 func (r *Reconciler) ensureTinkerbellClusterRole(ctx context.Context) error {
-	if err := boots.CreateClusterRole(ctx, r.Client, r.namespace); err != nil {
+	if err := boots.CreateClusterRole(ctx, r.Client); err != nil {
 		return fmt.Errorf("failed to create boots cluster role: %v", err)
 	}
 
-	if err := rufio.CreateClusterRole(ctx, r.Client, r.namespace); err != nil {
+	if err := rufio.CreateClusterRole(ctx, r.Client); err != nil {
 		return fmt.Errorf("failed to create rufio cluster role: %v", err)
 	}
 
-	if err := tink.CreateTinkControllerClusterRole(ctx, r.Client, r.namespace); err != nil {
+	if err := tink.CreateTinkControllerClusterRole(ctx, r.Client); err != nil {
 		return fmt.Errorf("failed to create tink controller cluster role: %v", err)
 	}
 
-	if err := tink.CreateTinkServerClusterRole(ctx, r.Client, r.namespace); err != nil {
+	if err := tink.CreateTinkServerClusterRole(ctx, r.Client); err != nil {
 		return fmt.Errorf("failed to create tink server cluster role: %v", err)
 	}
 
@@ -153,6 +153,14 @@ func (r *Reconciler) ensureTinkerbellDeployments(ctx context.Context) error {
 
 	if err := tink.CreateTinkStackDeployment(ctx, r.Client, r.namespace); err != nil {
 		return fmt.Errorf("failed to create tink stack deployment: %v", err)
+	}
+
+	return nil
+}
+
+func (r *Reconciler) ensureTinkerbellConfigMaps(ctx context.Context) error {
+	if err := tink.CreateNginxConfigMap(ctx, r.Client, r.namespace); err != nil {
+		return fmt.Errorf("failed to create stack nginx configmap: %v", err)
 	}
 
 	return nil
