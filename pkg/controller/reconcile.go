@@ -159,7 +159,7 @@ func (r *Reconciler) ensureTinkerbellDeployments(ctx context.Context) error {
 }
 
 func (r *Reconciler) ensureTinkerbellConfigMaps(ctx context.Context) error {
-	if err := tink.CreateNginxConfigMap(ctx, r.Client, r.namespace); err != nil {
+	if err := tink.CreateNginxConfigMap(ctx, r.Client, r.clusterDNS, r.namespace); err != nil {
 		return fmt.Errorf("failed to create stack nginx configmap: %v", err)
 	}
 

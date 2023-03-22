@@ -24,11 +24,12 @@ const (
 	ControllerName = "TinkerbellController"
 )
 
-func Add(mgr manager.Manager, log *zap.SugaredLogger, namespace string, workerCount int) error {
+func Add(mgr manager.Manager, log *zap.SugaredLogger, clusterDNS, namespace string, workerCount int) error {
 	reconciler := &Reconciler{
-		Client:    mgr.GetClient(),
-		log:       log,
-		namespace: namespace,
+		Client:     mgr.GetClient(),
+		log:        log,
+		namespace:  namespace,
+		clusterDNS: clusterDNS,
 	}
 
 	c, err := controller.New(ControllerName, mgr, controller.Options{Reconciler: reconciler, MaxConcurrentReconciles: workerCount})
@@ -58,7 +59,8 @@ type Reconciler struct {
 	client.Client
 	log *zap.SugaredLogger
 
-	namespace string
+	namespace  string
+	clusterDNS string
 }
 
 func (r *Reconciler) Reconcile(ctx context.Context, req ctrlruntime.Request) (reconcile.Result, error) {

@@ -5,9 +5,10 @@ import (
 )
 
 type controllerRunOptions struct {
-	kubeconfig              string
 	enableLeaderElection    bool
+	kubeconfig              string
 	leaderElectionNamespace string
+	clusterDNS              string
 
 	workerCount              int
 	overwriteRegistry        string
@@ -32,6 +33,7 @@ func newControllerOptions() *controllerRunOptions {
 	flag.StringVar(&opts.namespace, "namespace", "tinkerbell", "The namespace where the tinkerbell controller runs in.")
 	flag.StringVar(&opts.healthProbeAddress, "health-probe-address", "127.0.0.1:8085", "The address on which the liveness check on /healthz and readiness check on /readyz will be available")
 	flag.StringVar(&opts.metricsAddress, "metrics-address", "127.0.0.1:8080", "The address on which Prometheus metrics will be available under /metrics")
+	flag.StringVar(&opts.clusterDNS, "cluster-dns", "", "The ip address of of the cluster dns resolver")
 
 	flag.Parse()
 
