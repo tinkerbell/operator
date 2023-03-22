@@ -25,7 +25,7 @@ func newControllerOptions() *controllerRunOptions {
 		flag.StringVar(&opts.kubeconfig, "kubeconfig", "", "Path to a kubeconfig. Only required if out-of-cluster.")
 	}
 	flag.BoolVar(&opts.enableLeaderElection, "enable-leader-election", true, "Enable leader election for controller manager. Enabling this will ensure there is only one active controller manager.")
-	flag.StringVar(&opts.leaderElectionNamespace, "leader-election-namespace", "", "Leader election namespace. In-cluster discovery will be attempted in such case.")
+	flag.StringVar(&opts.leaderElectionNamespace, "leader-election-namespace", "kube-system", "Leader election namespace. In-cluster discovery will be attempted in such case.")
 	flag.IntVar(&opts.workerCount, "worker-count", 1, "Number of workers which process the clusters in parallel.")
 	flag.StringVar(&opts.overwriteRegistry, "overwrite-registry", "", "Registry to use for all images")
 	flag.StringVar(&opts.dockerPullConfigJSONFile, "docker-pull-config-json-file", "", "The file containing the docker auth config.")

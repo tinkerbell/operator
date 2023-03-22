@@ -45,7 +45,7 @@ func createManager(opts *controllerRunOptions) (manager.Manager, error) {
 	options := manager.Options{
 		LeaderElection:          opts.enableLeaderElection,
 		LeaderElectionID:        "tinkerbell-controller",
-		LeaderElectionNamespace: opts.namespace,
+		LeaderElectionNamespace: opts.leaderElectionNamespace,
 		HealthProbeBindAddress:  opts.healthProbeAddress,
 		MetricsBindAddress:      opts.metricsAddress,
 		Port:                    9443,
