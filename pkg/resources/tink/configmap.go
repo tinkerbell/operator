@@ -2,20 +2,40 @@ package tink
 
 import (
 	"context"
+	"fmt"
+	"strings"
+	"text/template"
+
 	corev1 "k8s.io/api/core/v1"
 	kerrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrlruntimeclient "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func CreateNginxConfigMap(ctx context.Context, client ctrlruntimeclient.Client, ns string) error {
+func CreateNginxConfigMap(ctx context.Context, client ctrlruntimeclient.Client, clusterDNS, ns string) error {
+	tmpl, err := template.New("nginx-conf").Parse(nginxConfigData)
+	if err != nil {
+		return fmt.Errorf("failed to parse nginx-conf template: %w", err)
+	}
+
+	data := struct {
+		ClusterDNS string
+	}{
+		ClusterDNS: clusterDNS,
+	}
+
+	var buf strings.Builder
+	if err = tmpl.Execute(&buf, data); err != nil {
+		return fmt.Errorf("failed to execute nginx-conf template: %w", err)
+	}
+
 	nginxConf := &corev1.ConfigMap{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "nginx-conf",
 			Namespace: ns,
 		},
 		Data: map[string]string{
-			"nginx.conf": nginxConfigData,
+			"nginx.conf": buf.String(),
 		},
 	}
 
@@ -44,7 +64,7 @@ http {
     location / {
       proxy_set_header X-Real-IP $remote_addr;
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      resolver $POD_NAMESERVER;
+      resolver {{ .ClusterDNS }};
       set $boots_dns boots.tinkerbell.svc.cluster.local; # needed in Kubernetes for dynamic DNS resolution
 
       proxy_pass http://$boots_dns;
@@ -56,7 +76,7 @@ http {
     location / {
       proxy_set_header X-Real-IP $remote_addr;
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      resolver $POD_NAMESERVER;
+      resolver {{ .ClusterDNS }};
       set $hegel_dns hegel.tinkerbell.svc.cluster.local; # needed in Kubernetes for dynamic DNS resolution
 
       proxy_pass http://$hegel_dns:50061;
@@ -68,7 +88,7 @@ http {
     location / {
       proxy_set_header X-Real-IP $remote_addr;
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      resolver $POD_NAMESERVER;
+      resolver {{ .ClusterDNS }};
       set $tink_dns tink-server.tinkerbell.svc.cluster.local; # needed in Kubernetes for dynamic DNS resolution
 
       grpc_pass grpc://$tink_dns:42113;
@@ -88,7 +108,7 @@ stream {
 
   server {
       listen 67 udp;
-      resolver $POD_NAMESERVER; # needed in Kubernetes for dynamic DNS resolution
+      resolver {{ .ClusterDNS }}; # needed in Kubernetes for dynamic DNS resolution
       set $boots_dns boots.tinkerbell.svc.cluster.local; # needed in Kubernetes for dynamic DNS resolution
       proxy_pass $boots_dns:67;
       proxy_bind $remote_addr:$remote_port transparent;
@@ -97,7 +117,7 @@ stream {
   }
   server {
       listen 69 udp;
-      resolver $POD_NAMESERVER;
+      resolver {{ .ClusterDNS }};
       set $boots_dns boots.tinkerbell.svc.cluster.local; # needed in Kubernetes for dynamic DNS resolution
       proxy_pass $boots_dns:69;
       proxy_timeout 1s;
@@ -105,7 +125,7 @@ stream {
   }
   server {
       listen 514 udp;
-      resolver $POD_NAMESERVER;
+      resolver {{ .ClusterDNS }};
       set $boots_dns boots.tinkerbell.svc.cluster.local; # needed in Kubernetes for dynamic DNS resolution
       proxy_pass $boots_dns:514;
       proxy_bind $remote_addr:$remote_port transparent;
