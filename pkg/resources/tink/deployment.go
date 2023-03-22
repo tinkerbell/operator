@@ -97,8 +97,15 @@ func CreateTinkServerDeployment(ctx context.Context, client ctrlruntimeclient.Cl
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{
 						{
-							Name:            "server",
-							Image:           "quay.io/tinkerbell/tink:v0.8.0",
+							Name:  "server",
+							Image: "quay.io/tinkerbell/tink:v0.8.0",
+							Args:  []string{"--backend", "kubernetes"},
+							Env: []corev1.EnvVar{
+								{
+									Name:  "TINKERBELL_TLS",
+									Value: "false",
+								},
+							},
 							ImagePullPolicy: corev1.PullIfNotPresent,
 							Ports: []corev1.ContainerPort{
 								{
@@ -165,9 +172,7 @@ func CreateTinkStackDeployment(ctx context.Context, client ctrlruntimeclient.Cli
 							Image:           "nginx:1.23.1",
 							ImagePullPolicy: corev1.PullIfNotPresent,
 							Command:         []string{"/bin/bash", "-c"},
-							Args: []string{"export POD_NAMESERVER=$(awk 'NR==2 {print $2}' /etc/resolv.conf);",
-								"envsubst '$POD_NAMESERVER' < /tmp/nginx.conf.template > /etc/nginx/nginx.conf;",
-								"nginx -g 'daemon off;'"},
+							Args:            []string{"nginx -g 'daemon off;'"},
 							Ports: []corev1.ContainerPort{
 								{
 									ContainerPort: int32(67),
