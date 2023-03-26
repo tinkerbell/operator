@@ -24,6 +24,11 @@ derived from machine state) can be very difficult to implement in a _YAML_ forma
 upon this upgrade, such as migrating the existing CRs to the new CRDs
 - **Day-2 Operations**: Taking care of various operations that are considered as Day-2 operations, such as maintaining
 and monitoring the running services and deployments. 
+- **Observability**: Observing and reflecting on the changes in the tinkerbell setup eco-system(e.g: picking up and 
+deploy new configurations without the need of a manual intervention)
+- **Building up the Standards**: Identify and focus on Tinkerbell essential and standard components(e.g: boots and hegel)
+without confusing these components with the utilities(e.g: KubeVip and Nginx), to introduce a more of a clear path of what 
+we support out of the box as a community and what we don't
 
 ## Usage
 Currently, the operator doesn't take care of deploying the needed k8s crds to start the controller, thus, the crds must be 
