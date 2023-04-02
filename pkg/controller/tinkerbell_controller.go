@@ -73,10 +73,6 @@ func (r *Reconciler) Reconcile(ctx context.Context, req ctrlruntime.Request) (re
 }
 
 func (r *Reconciler) reconcile(ctx context.Context) error {
-	if err := r.ensureTinkerbellNamespace(ctx); err != nil {
-		return fmt.Errorf("failed to ensure tinkerbell namespace: %v", err)
-	}
-
 	if err := r.ensureTinkerbellServiceAccounts(ctx); err != nil {
 		return fmt.Errorf("failed to ensure tinkerbell service accounts: %v", err)
 	}

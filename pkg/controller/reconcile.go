@@ -3,15 +3,6 @@ package controller
 import (
 	"context"
 	"fmt"
-	"time"
-
-	corev1 "k8s.io/api/core/v1"
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/types"
-	"k8s.io/apimachinery/pkg/util/wait"
-
-	"github.com/moadqassem/kubetink/pkg/resources"
 	"github.com/moadqassem/kubetink/pkg/resources/boots"
 	"github.com/moadqassem/kubetink/pkg/resources/hegel"
 	"github.com/moadqassem/kubetink/pkg/resources/rufio"
@@ -161,49 +152,6 @@ func (r *Reconciler) ensureTinkerbellDeployments(ctx context.Context) error {
 func (r *Reconciler) ensureTinkerbellConfigMaps(ctx context.Context) error {
 	if err := tink.CreateNginxConfigMap(ctx, r.Client, r.clusterDNS, r.namespace); err != nil {
 		return fmt.Errorf("failed to create stack nginx configmap: %v", err)
-	}
-
-	return nil
-}
-
-func (r *Reconciler) ensureTinkerbellNamespace(ctx context.Context) error {
-
-	ns := &corev1.Namespace{}
-	// TODO: We could read the namespace from the command line as well.
-	err := r.Get(ctx, types.NamespacedName{Name: resources.TinkerbellNamespace}, ns)
-	if err == nil {
-		return nil // found it
-	}
-	if !apierrors.IsNotFound(err) {
-		return err
-	}
-
-	ns = &corev1.Namespace{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: resources.TinkerbellNamespace,
-		},
-	}
-
-	//TODO: add IgnoreAlreadyExists utility in the error check
-	if err := r.Create(ctx, ns); err != nil {
-		return fmt.Errorf("failed to create Namespace %s: %w", resources.TinkerbellNamespace, err)
-	}
-
-	// make sure that the namespace is created and presented in the cache.
-	err = wait.PollImmediate(1*time.Second, 30*time.Second, func() (bool, error) {
-		ns := &corev1.Namespace{}
-		err := r.Get(ctx, types.NamespacedName{Name: resources.TinkerbellNamespace}, ns)
-		if err == nil {
-			return true, nil
-		}
-		if apierrors.IsNotFound(err) {
-			return false, nil
-		}
-
-		return false, err
-	})
-	if err != nil {
-		return fmt.Errorf("failed to wait for cluster namespace to appear in cache: %w", err)
 	}
 
 	return nil
