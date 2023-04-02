@@ -1251,7 +1251,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kubetink
-  namespace: namespace
+  namespace: tinkerbell
   labels:
     app.kubernetes.io/name: kubetink
 spec:
