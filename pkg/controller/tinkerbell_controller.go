@@ -6,6 +6,8 @@ import (
 
 	"go.uber.org/zap"
 
+	"github.com/moadqassem/kubetink/pkg/util"
+
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	rbacv1 "k8s.io/api/rbac/v1"
@@ -41,10 +43,12 @@ func Add(mgr manager.Manager, log *zap.SugaredLogger, clusterDNS, namespace stri
 		&appsv1.Deployment{},
 		&rbacv1.Role{},
 		&rbacv1.RoleBinding{},
+		&rbacv1.ClusterRole{},
+		&rbacv1.ClusterRoleBinding{},
 	}
 
 	for _, t := range typesToWatch {
-		if err := c.Watch(&source.Kind{Type: t}, &handler.EnqueueRequestForObject{}); err != nil {
+		if err := c.Watch(&source.Kind{Type: t}, &handler.EnqueueRequestForObject{}, util.ByNamespace(namespace)); err != nil {
 			return fmt.Errorf("failed to create watch for %T: %w", t, err)
 		}
 	}
