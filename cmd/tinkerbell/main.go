@@ -30,7 +30,7 @@ func main() {
 		log.Fatalf("failed to create runtime manager: %v", err)
 	}
 
-	if err := kubetinkctrl.Add(mgr, log, opts.namespace, opts.clusterDNS, opts.workerCount); err != nil {
+	if err := kubetinkctrl.Add(mgr, log, opts.clusterDNS, opts.namespace, opts.workerCount); err != nil {
 		log.Fatalf("failed to add kubetink controller to manager: %v", err)
 	}
 
