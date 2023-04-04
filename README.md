@@ -8,6 +8,11 @@ the deployment and lifecycle of these Tinkerbell services:
 - **Rufio**: Rufio is a declarative state manager for BMCs
 - **Tink**: A workflow engine for provisioning bare metal
 
+> **_NOTE:_** The operator presently deploys the tinkerbell services by utilizing the manifest file (tinkerbell.yaml) 
+> located in the deploy directory upon deployment. However, our objective is to deploy the tinkerbell services only
+> after the creation of a CustomResourceDefinition (CRD) named Tinkerbell or TinkerbellInstance and to remove them 
+> when the CRD is deleted.
+
 > **_NOTE:_** Kubetink is a tech preview project thus it shouldn't be used in production environments. 
 
 ## Motivation
