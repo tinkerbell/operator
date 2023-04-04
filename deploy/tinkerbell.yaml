@@ -1220,7 +1220,7 @@ metadata:
     app.kubernetes.io/name: kubetink
 rules:
   - apiGroups: [""]
-    resources: ["secrets", "services", "configmaps", "serviceaccounts"]
+    resources: ["events", "secrets", "services", "configmaps", "serviceaccounts"]
     verbs: ["*"]
   - apiGroups: ["apps"]
     resources: ["deployments"]
@@ -1267,11 +1267,12 @@ spec:
     spec:
       containers:
         - name: kubetink-operator
-          image: moadqassem/kubetink:latest
+          image: moadqassem/kubetink:v0.1.0
           imagePullPolicy: IfNotPresent
           command:
-            - kubetink
+            - tinkerbell
           args:
+            - --namespace=tinkerbell
             - --leader-election-namespace=kube-system
       serviceAccountName: kubetink-service-account
 
