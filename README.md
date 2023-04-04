@@ -35,15 +35,17 @@ new configurations without the need for manual intervention).
 without confusing these components with utilities (e.g., KubeVip and Nginx) to introduce a clearer path of what we support 
 out of the box as a community and what we do not.
 
-## Usage
-Currently, the operator doesn't take care of deploying the needed k8s crds to start the controller, thus, the crds must be 
-created first in the k8s cluster, then lunch the operator:
+## Installation
+Kubetink can be installed on a Kubernetes cluster using `kubectl`:
 
 ```shell
-kubectl apply -f ./pkg/crd/tinkerbell.org
+kubectl apply -f ./deploy/tinkerbell.yaml
 ```
 
-The operator will create a new namespace called `tinkerbell` abd deploys all the needed resources over there. 
+The tinkerbell.yaml file comprises all the necessary Kubernetes resources required by the operator, including the definition
+of the tinkerbell namespace, tinkerbell CustomResourceDefinitions (CRDs), the tinkerbell service account, RBAC definitions, 
+and the deployment definition of the operator. Once applied, it will create a new namespace named tinkerbell and deploy 
+all the required resources there.
 
 ## Current Stage
 Kubetink only deploys tinkerbell provisioning components, and it doesn't take care of any other utilities and network plumbings
