@@ -36,7 +36,6 @@ func Add(mgr manager.Manager, log *zap.SugaredLogger, clusterDNS, namespace stri
 	}
 
 	typesToWatch := []client.Object{
-		&corev1.Namespace{},
 		&corev1.Service{},
 		&corev1.ServiceAccount{},
 		&appsv1.Deployment{},
