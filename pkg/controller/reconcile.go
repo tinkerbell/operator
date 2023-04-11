@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/moadqassem/operator/pkg/resources/boots"
-	"github.com/moadqassem/operator/pkg/resources/hegel"
-	"github.com/moadqassem/operator/pkg/resources/rufio"
-	"github.com/moadqassem/operator/pkg/resources/tink"
+	"github.com/tinkerbell/operator/pkg/resources/boots"
+	"github.com/tinkerbell/operator/pkg/resources/hegel"
+	"github.com/tinkerbell/operator/pkg/resources/rufio"
+	"github.com/tinkerbell/operator/pkg/resources/tink"
 )
 
 func (r *Reconciler) ensureTinkerbellServiceAccounts(ctx context.Context) error {

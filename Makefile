@@ -12,12 +12,12 @@ GO_VERSION = 1.20.1
 CMD = $(notdir $(wildcard ./cmd/*))
 BUILD_DEST ?= _build
 
-REGISTRY ?= docker.io
-REGISTRY_NAMESPACE ?= moadqassem
+REGISTRY ?= quay.io
+REGISTRY_NAMESPACE ?= tinkerbell
 
 IMAGE_TAG = \
 		$(shell echo $$(git rev-parse HEAD && if [[ -n $$(git status --porcelain) ]]; then echo '-dirty'; fi)|tr -d ' ')
-IMAGE_NAME ?= $(REGISTRY)/$(REGISTRY_NAMESPACE)/kubetink:$(IMAGE_TAG)
+IMAGE_NAME ?= $(REGISTRY)/$(REGISTRY_NAMESPACE)/operator:$(IMAGE_TAG)
 
 BASE64_ENC = \
 		$(shell if base64 -w0 <(echo "") &> /dev/null; then echo "base64 -w0"; else echo "base64 -b0"; fi)

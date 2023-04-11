@@ -6,7 +6,7 @@ import (
 
 	"go.uber.org/zap"
 
-	kubetinkctrl "github.com/moadqassem/operator/pkg/controller"
+	operatorctrl "github.com/tinkerbell/operator/pkg/controller"
 
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
@@ -30,13 +30,13 @@ func main() {
 		log.Fatalf("failed to create runtime manager: %v", err)
 	}
 
-	if err := kubetinkctrl.Add(mgr, log, opts.clusterDNS, opts.namespace, opts.workerCount); err != nil {
-		log.Fatalf("failed to add kubetink controller to manager: %v", err)
+	if err := operatorctrl.Add(mgr, log, opts.clusterDNS, opts.namespace, opts.workerCount); err != nil {
+		log.Fatalf("failed to add controller to manager: %v", err)
 	}
 
 	log.Info("starting manager")
 	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
-		log.Fatalf("Failed to start kubetink controller: %v", zap.Error(err))
+		log.Fatalf("Failed to start controller: %v", zap.Error(err))
 	}
 }
 
