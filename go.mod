@@ -1,4 +1,4 @@
-module github.com/moadqassem/operator
+module github.com/tinkerbell/operator
 
 go 1.19
 

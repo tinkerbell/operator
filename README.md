@@ -1,6 +1,6 @@
-# Kubetink
+# Tinkerbell Operator
 
-Kubetink is a Kubernetes operator that deploys Tinkerbell components in a Kubernetes cluster. Kubetink takes care of 
+Tinkerbell operator is a Kubernetes operator that deploys Tinkerbell components in a Kubernetes cluster. The operator takes care of 
 the deployment and lifecycle of these Tinkerbell services: 
 
 - **Boots**: The DHCP and iPXE server for Tinkerbell
@@ -13,7 +13,7 @@ the deployment and lifecycle of these Tinkerbell services:
 > after the creation of a CustomResourceDefinition (CRD) named Tinkerbell or TinkerbellInstance and to remove them 
 > when the CRD is deleted.
 
-> **_NOTE:_** Kubetink is a tech preview project thus it shouldn't be used in production environments. 
+> **_NOTE:_** the operator is a tech preview project thus it shouldn't be used in production environments. 
 
 ## Motivation
 The Tinkerbell organization offers the possibility of installing the Tinkerbell stack using Helm, which can be found in
@@ -36,7 +36,7 @@ without confusing these components with utilities (e.g., KubeVip and Nginx) to i
 out of the box as a community and what we do not.
 
 ## Installation
-Kubetink can be installed on a Kubernetes cluster using `kubectl`:
+The operator can be installed on a Kubernetes cluster using `kubectl`:
 
 ```shell
 kubectl apply -f ./deploy/tinkerbell.yaml
@@ -48,6 +48,6 @@ and the deployment definition of the operator. Once applied, it will create a ne
 all the required resources there.
 
 ## Current Stage
-Kubetink only deploys tinkerbell provisioning components, and it doesn't take care of any other utilities and network plumbings
+The operator only deploys tinkerbell provisioning components, and it doesn't take care of any other utilities and network plumbings
 (e.g: it doesn't install network services to expose boots). However, we are considering of adding some of these utilities in
 the future as Addons.
