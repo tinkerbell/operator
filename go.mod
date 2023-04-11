@@ -3,7 +3,6 @@ module github.com/tinkerbell/operator
 go 1.19
 
 require (
-	github.com/Masterminds/semver/v3 v3.1.1
 	go.uber.org/zap v1.23.0
 	k8s.io/api v0.25.0
 	k8s.io/apimachinery v0.25.3
