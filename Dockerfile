@@ -4,7 +4,7 @@ WORKDIR /go/src/github.com/tinkerbell/operator
 COPY . .
 RUN make all
 
-FROM alpine:3.16
+FROM alpine:3.17
 
 COPY --from=builder \
     /go/src/github.com/tinkerbell/operator/_build/tinkerbell \
