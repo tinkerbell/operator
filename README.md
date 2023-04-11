@@ -1,5 +1,9 @@
 # Tinkerbell Operator
 
+[![Experimental](https://img.shields.io/badge/Stability-Experimental-red.svg)](https://github.com/equinix-labs/standards#about-uniform-standards)
+
+> This project is experimental and a work in progress. Use at your own risk!
+
 Tinkerbell operator is a Kubernetes operator that deploys Tinkerbell components in a Kubernetes cluster. The operator takes care of 
 the deployment and lifecycle of these Tinkerbell services: 
 
