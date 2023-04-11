@@ -1267,7 +1267,7 @@ spec:
     spec:
       containers:
         - name: kubetink-operator
-          image: moadqassem/kubetink:v0.1.0
+          image: moadqassem/operator:v0.1.0
           imagePullPolicy: IfNotPresent
           command:
             - tinkerbell

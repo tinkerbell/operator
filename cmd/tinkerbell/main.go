@@ -6,7 +6,7 @@ import (
 
 	"go.uber.org/zap"
 
-	kubetinkctrl "github.com/moadqassem/kubetink/pkg/controller"
+	kubetinkctrl "github.com/moadqassem/operator/pkg/controller"
 
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"

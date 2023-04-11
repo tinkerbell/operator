@@ -1,4 +1,4 @@
-module github.com/moadqassem/kubetink
+module github.com/moadqassem/operator
 
 go 1.19
 

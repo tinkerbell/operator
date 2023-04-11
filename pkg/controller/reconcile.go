@@ -3,10 +3,11 @@ package controller
 import (
 	"context"
 	"fmt"
-	"github.com/moadqassem/kubetink/pkg/resources/boots"
-	"github.com/moadqassem/kubetink/pkg/resources/hegel"
-	"github.com/moadqassem/kubetink/pkg/resources/rufio"
-	"github.com/moadqassem/kubetink/pkg/resources/tink"
+
+	"github.com/moadqassem/operator/pkg/resources/boots"
+	"github.com/moadqassem/operator/pkg/resources/hegel"
+	"github.com/moadqassem/operator/pkg/resources/rufio"
+	"github.com/moadqassem/operator/pkg/resources/tink"
 )
 
 func (r *Reconciler) ensureTinkerbellServiceAccounts(ctx context.Context) error {
