@@ -7,7 +7,6 @@ shared:
 
     # Ensure the minimal CI checks have passed.
     - check-success=DCO
-    - check-success=Package
 
     # Ensure we're targetting the default branch.
     - base=main
