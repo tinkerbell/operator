@@ -77,3 +77,96 @@ type TinkerbellSpec struct {
     Tink  TinkSpec  `json:"tink"` 
 }
 ```
+
+#### ImageSpec
+```go
+// ImageSpec specifies the details of a tinkerbell services images.
+type ImageSpec struct {
+    // ImageRepository is used to set the BootsSpec image repository.
+    ImageRepository string `json:"imageRepository,omitempty"`
+    
+    // ImageTag is used to set the BootsSpec image tag.
+    ImageTag string `json:"imageTag,omitempty"`
+}
+```
+
+#### BootsSpec
+```go
+// BootsSpec specifies the details of tinkerbell service boots.
+type BootsSpec struct {
+    // Image specifies the details of a tinkerbell services images
+    Image ImageSpec `json:"image"`
+    
+    // DHCPAddress set the ip and port to listen on for DHCP.
+    DHCPAddress string `json:"dhcpAddress"`
+	
+    // TrustedProxies comma separated allowed CIDRs subnets to be used as trusted proxies
+    TrustedProxies string `json:"trustedProxies"`
+
+    // FacilityCode represents the facility in use.
+    FacilityCode string `json:"facilityCode"`
+	
+    // HTTPBind is the port to listen on for the serving iPXE binaries and files via HTTP.
+    HTTPBind int `json:"httpBind"`
+	
+    // MirrorBaseURL the URL from where the "OSIE" or Hook kernel(s) and initrd(s) will be downloaded by netboot clients
+    MirrorBaseURL string `json:"mirrorBaseURL"`
+	
+    // OSIEPathOverride override the URL where OSIE/Hook images are located
+    OSIEPathOverride string `json:"osiePathOverride"`    	
+	
+    // PublicIP is the IP that netboot clients and/or DHCP relay's will use to reach Boots
+    PublicIP string `json:"publicIP"`
+	
+    // PublicSyslogFQDN is the IP that syslog clients will use to send messages
+    PublicSyslogFQDN string `json:"publicSyslogFQDN"`
+    
+    // SyslogBind is the port that syslog clients will use to send messages
+    SyslogBind int `json:"syslogBind"`
+	
+    // TinkerbellGRPCAuthority is the IP:Port that a Tink worker will use for communicated with the Tink server	
+    TinkerbellGRPCAuthority	string `json:"tinkerbellGRPCAuthority"`
+	
+    // TinkerbellTLS sets if the boots should run with TLS or not.	
+    TinkerbellTLS bool `json:"tinkerbellTLS"`
+
+    // LogLevel sets the debug level for boots.
+    logLevel string `json:"logLevel"`	
+}
+```
+
+#### HegelSpec
+```go
+// HegelSpec specifies the details of tinkerbell service hegel.
+type HegelSpec struct {
+    // Image specifies the details of a tinkerbell services images
+    Image ImageSpec `json:"image"`
+    
+    // TrustedProxies comma separated allowed CIDRs subnets to be used as trusted proxies
+    TrustedProxies string `json:"trustedProxies"`
+}
+```
+
+#### RufioSpec
+```go
+// RufioSpec specifies the details of tinkerbell service rufio.
+type RufioSpec struct {
+    // Image specifies the details of a tinkerbell services images
+    Image ImageSpec `json:"image"`
+
+    // TrustedProxies comma separated allowed CIDRs subnets to be used as trusted proxies
+    TrustedProxies string `json:"trustedProxies"`
+}
+```
+
+#### TinkSpec
+```go
+// TinkSpec specifies the details of tinkerbell service tink server.
+type TinkSpec struct {
+    // Image specifies the details of a tinkerbell services images
+    Image ImageSpec `json:"image"`
+
+    // TinkerbellTLS sets if the tink server should run with TLS or not.	
+    TinkerbellTLS bool `json:"tinkerbellTLS"`
+}
+```
