@@ -10,6 +10,7 @@ export GIT_TAG ?= $(shell git tag --points-at HEAD)
 GO_VERSION = 1.20.1
 GO 				?= go
 GOLANGCI_LINT := $(GO) run github.com/golangci/golangci-lint/cmd/golangci-lint@v1.52
+GOFUMPT 		:= $(GO) run mvdan.cc/gofumpt@v0.4
 
 CMD = $(notdir $(wildcard ./cmd/*))
 BUILD_DEST ?= _build
@@ -23,6 +24,10 @@ IMAGE_NAME ?= $(REGISTRY)/$(REGISTRY_NAMESPACE)/operator:$(IMAGE_TAG)
 
 BASE64_ENC = \
 		$(shell if base64 -w0 <(echo "") &> /dev/null; then echo "base64 -w0"; else echo "base64 -b0"; fi)
+
+.PHONY: verify
+verify: lint ## Verify code style, is lint free, freshness ...
+	$(GOFUMPT) -d .
 
 .PHONY: lint
 lint: shellcheck hadolint golangci-lint yamllint ## Lint code
