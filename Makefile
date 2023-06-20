@@ -9,8 +9,10 @@ export GIT_TAG ?= $(shell git tag --points-at HEAD)
 
 GO_VERSION = 1.20.1
 GO 				?= go
+GOOS 	?= $(shell go env GOOS)
 GOLANGCI_LINT := $(GO) run github.com/golangci/golangci-lint/cmd/golangci-lint@v1.52
 GOFUMPT 		:= $(GO) run mvdan.cc/gofumpt@v0.4
+GOARCH 	?= $(shell go env GOARCH)
 
 CMD = $(notdir $(wildcard ./cmd/*))
 BUILD_DEST ?= _build
@@ -95,13 +97,8 @@ buildenv:
 all: build
 
 .PHONY: build
-build: $(CMD)
-
-.PHONY: $(CMD)
-$(CMD): %: $(BUILD_DEST)/%
-
-$(BUILD_DEST)/%: cmd/%
-	go build -v -o $@ ./cmd/$*
+build:
+	CGO_ENABLED=0 GOOS=$(GOOS) GOARCH=$(GOARCH) $(GO) build $(LDFLAGS) -o ./bin/operator-$(GOOS)-$(GOARCH) ./cmd/tinkerbell
 
 .PHONY: clean
 clean:
