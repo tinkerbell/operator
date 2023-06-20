@@ -19,3 +19,14 @@ jobs:
         with:
           go-version: "${{ env.GO_VERSION }}"
       - run: make verify
+  checks:
+    name: CI Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install nix
+        uses: cachix/install-nix-action@v22
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+      - name: Run ci-checks.sh
+        run: nix-shell --run 'make ci-checks'
