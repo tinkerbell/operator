@@ -21,7 +21,7 @@ the deployment and lifecycle of these Tinkerbell services:
 
 ## Motivation
 The Tinkerbell organization offers the possibility of installing the Tinkerbell stack using Helm, which can be found in
-this [repository](https://github.com/tinkerbell/charts). This should be the simplest way to install the Tinkerbell service. However, we have identified different 
+this [repository](https://operatorcharts). This should be the simplest way to install the Tinkerbell service. However, we have identified different 
 factors that have led us to start looking for a solution that introduces more observability and robustness to maintain 
 different complex configurations and manage Tinkerbell service lifecycle.
 
