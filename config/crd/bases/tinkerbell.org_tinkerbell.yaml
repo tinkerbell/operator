@@ -47,38 +47,36 @@ spec:
                 description: Boots contains all the information and spec about boots.
                 properties:
                   dhcpAddress:
-                    description: DHCPAddress set the ip and port to listen on for
-                      DHCP.
+                    description: DHCPAddressListener set the ip and port to listen
+                      on for DHCP.
                     type: string
-                  facilityCode:
-                    description: FacilityCode represents the facility in use.
-                    type: string
-                  httpBind:
-                    description: HTTPBind is the port to listen on for the serving
+                  httpAddress:
+                    description: HTTPAddress is the address to listen on for the serving
                       iPXE binaries and files via HTTP.
-                    type: integer
+                    type: string
                   image:
                     description: Image specifies the details of a tinkerbell services
                       images
                     properties:
-                      imageRepository:
-                        description: ImageRepository is used to set the BootsSpec
-                          image repository.
+                      repository:
+                        description: Repository is used to set the image repository
+                          for tinkerbell services.
                         type: string
-                      imageTag:
-                        description: ImageTag is used to set the BootsSpec image tag.
+                      tag:
+                        description: Tag is used to set the image tag for tinkerbell
+                          services.
                         type: string
                     type: object
                   logLevel:
                     description: LogLevel sets the debug level for boots.
                     type: string
                   mirrorBaseURL:
-                    description: MirrorBaseURL the URL from where the "OSIE" or Hook
-                      kernel(s) and initrd(s) will be downloaded by netboot clients
+                    description: MirrorBaseURL is the URL for downloading an in-memory
+                      os such as Hook.
                     type: string
-                  osiePathOverride:
-                    description: OSIEPathOverride override the URL where OSIE/Hook
-                      images are located
+                  osieURL:
+                    description: OSIEURL override the URL where OSIE/Hook images are
+                      located
                     type: string
                   publicIP:
                     description: PublicIP is the IP that netboot clients and/or DHCP
@@ -88,13 +86,13 @@ spec:
                     description: PublicSyslogFQDN is the IP that syslog clients will
                       use to send messages
                     type: string
-                  syslogBind:
-                    description: SyslogBind is the port that syslog clients will use
-                      to send messages
-                    type: integer
+                  syslogAddress:
+                    description: SyslogAddress is the IP and port that syslog clients
+                      will use to send messages
+                    type: string
                   tinkerbellGRPCAuthority:
-                    description: TinkerbellGRPCAuthority is the IP:Port that a Tink
-                      worker will use for communicated with the Tink server
+                    description: TinkerbellGRPCAuthority IP and port to listen on
+                      for syslog messages.
                     type: string
                   tinkerbellTLS:
                     description: TinkerbellTLS sets if the boots should run with TLS
@@ -106,26 +104,20 @@ spec:
                     type: string
                 required:
                 - dhcpAddress
-                - facilityCode
-                - httpBind
+                - httpAddress
                 - image
                 - logLevel
                 - mirrorBaseURL
-                - osiePathOverride
+                - osieURL
                 - publicIP
                 - publicSyslogFQDN
-                - syslogBind
+                - syslogAddress
                 - tinkerbellGRPCAuthority
                 - tinkerbellTLS
                 - trustedProxies
                 type: object
               clusterDNS:
-                description: ClusterDNS is the ip address of the cluster dns resolver.
-                type: string
-              dockerPullComfig:
-                description: DockerPullConfig the secret name containing the docker
-                  auth config which should exist in the same namespace where the operator
-                  is deployed(typically tinkerbell)
+                description: ClusterDNS is the IP address of the cluster DNS resolver.
                 type: string
               hegel:
                 description: Hegel contains all the information and spec about boots.
@@ -134,12 +126,13 @@ spec:
                     description: Image specifies the details of a tinkerbell services
                       images
                     properties:
-                      imageRepository:
-                        description: ImageRepository is used to set the BootsSpec
-                          image repository.
+                      repository:
+                        description: Repository is used to set the image repository
+                          for tinkerbell services.
                         type: string
-                      imageTag:
-                        description: ImageTag is used to set the BootsSpec image tag.
+                      tag:
+                        description: Tag is used to set the image tag for tinkerbell
+                          services.
                         type: string
                     type: object
                   trustedProxies:
@@ -150,11 +143,18 @@ spec:
                 - image
                 - trustedProxies
                 type: object
-              overwriteRegistry:
-                description: OverwriteRegistry is the registry to use for all images.
-                  If this field is set, all tink service deployment images will be
-                  prefixed with this value. For example if the value here was set
-                  to docker.io, then boots image will be docker.io/tinkerbell/boots.
+              imagePullSecret:
+                description: ImagePullSecret the secret name containing the docker
+                  auth config which should exist in the same namespace where the operator
+                  is deployed(typically tinkerbell)
+                items:
+                  type: string
+                type: array
+              registry:
+                description: Registry is the registry to use for all images. If this
+                  field is set, all tink service deployment images will be prefixed
+                  with this value. For example if the value here was set to docker.io,
+                  then boots image will be docker.io/tinkerbell/boots.
                 type: string
               rufio:
                 description: Rufio contains all the information and spec about rufio.
@@ -163,12 +163,13 @@ spec:
                     description: Image specifies the details of a tinkerbell services
                       images
                     properties:
-                      imageRepository:
-                        description: ImageRepository is used to set the BootsSpec
-                          image repository.
+                      repository:
+                        description: Repository is used to set the image repository
+                          for tinkerbell services.
                         type: string
-                      imageTag:
-                        description: ImageTag is used to set the BootsSpec image tag.
+                      tag:
+                        description: Tag is used to set the image tag for tinkerbell
+                          services.
                         type: string
                     type: object
                   trustedProxies:
@@ -179,19 +180,33 @@ spec:
                 - image
                 - trustedProxies
                 type: object
-              tink:
-                description: Tink contains all the information and spec about tink.
+              tinkController:
+                description: TinkController contains all the information and spec
+                  about tink controller.
+                properties:
+                  repository:
+                    description: Repository is used to set the image repository for
+                      tinkerbell services.
+                    type: string
+                  tag:
+                    description: Tag is used to set the image tag for tinkerbell services.
+                    type: string
+                type: object
+              tinkServer:
+                description: TinkServer contains all the information and spec about
+                  tink server.
                 properties:
                   image:
                     description: Image specifies the details of a tinkerbell services
                       images
                     properties:
-                      imageRepository:
-                        description: ImageRepository is used to set the BootsSpec
-                          image repository.
+                      repository:
+                        description: Repository is used to set the image repository
+                          for tinkerbell services.
                         type: string
-                      imageTag:
-                        description: ImageTag is used to set the BootsSpec image tag.
+                      tag:
+                        description: Tag is used to set the image tag for tinkerbell
+                          services.
                         type: string
                     type: object
                   tinkerbellTLS:
@@ -203,16 +218,17 @@ spec:
                 - tinkerbellTLS
                 type: object
               tinkerbellVersion:
-                description: TinkerbellVersion is the tinkerbell crd version.
+                description: TinkerbellVersion is the Tinkerbell CRD version.
                 type: string
             required:
             - boots
             - clusterDNS
-            - dockerPullComfig
             - hegel
-            - overwriteRegistry
+            - imagePullSecret
+            - registry
             - rufio
-            - tink
+            - tinkController
+            - tinkServer
             - tinkerbellVersion
             type: object
         type: object

@@ -37,20 +37,23 @@ type TinkerbellSpec struct {
 	ImagePullSecret []string `json:"imagePullSecret"`
 
 	// Boots contains all the information and spec about boots.
-	Boots BootsSpec `json:"boots"`
+	Boots Boots `json:"boots"`
 
 	// Hegel contains all the information and spec about boots.
-	Hegel HegelSpec `json:"hegel"`
+	Hegel Hegel `json:"hegel"`
 
 	// Rufio contains all the information and spec about rufio.
-	Rufio RufioSpec `json:"rufio"`
+	Rufio Rufio `json:"rufio"`
 
-	// Tink contains all the information and spec about tink.
-	Tink TinkSpec `json:"tink"`
+	// TinkServer contains all the information and spec about tink server.
+	TinkServer TinkServer `json:"tinkServer"`
+
+	// TinkController contains all the information and spec about tink controller.
+	TinkController Image `json:"tinkController"`
 }
 
-// ImageSpec specifies the details of a tinkerbell services images.
-type ImageSpec struct {
+// Image specifies the details of a tinkerbell services images.
+type Image struct {
 	// Repository is used to set the image repository for tinkerbell services.
 	Repository string `json:"repository,omitempty"`
 
@@ -58,10 +61,10 @@ type ImageSpec struct {
 	Tag string `json:"tag,omitempty"`
 }
 
-// BootsSpec specifies the deployment details of Tinkerbell service, Boots.
-type BootsSpec struct {
+// Boots specifies the deployment details of Tinkerbell service, Boots.
+type Boots struct {
 	// Image specifies the details of a tinkerbell services images
-	Image ImageSpec `json:"image"`
+	Image Image `json:"image"`
 
 	// DHCPAddressListener set the ip and port to listen on for DHCP.
 	DHCPAddressListener string `json:"dhcpAddress"`
@@ -69,14 +72,14 @@ type BootsSpec struct {
 	// TrustedProxies comma separated allowed CIDRs subnets to be used as trusted proxies
 	TrustedProxies string `json:"trustedProxies"`
 
-	// HTTPBind is the port to listen on for the serving iPXE binaries and files via HTTP.
-	HTTPBind int `json:"httpBind"`
+	// HTTPAddress is the address to listen on for the serving iPXE binaries and files via HTTP.
+	HTTPAddress string `json:"httpAddress"`
 
 	// MirrorBaseURL is the URL for downloading an in-memory os such as Hook.
 	MirrorBaseURL string `json:"mirrorBaseURL"`
 
-	// OSIEPathOverride override the URL where OSIE/Hook images are located
-	OSIEPathOverride string `json:"osiePathOverride"`
+	// OSIEURL override the URL where OSIE/Hook images are located
+	OSIEURL string `json:"osieURL"`
 
 	// PublicIP is the IP that netboot clients and/or DHCP relay's will use to reach Boots
 	PublicIP string `json:"publicIP"`
@@ -97,28 +100,28 @@ type BootsSpec struct {
 	LogLevel string `json:"logLevel"`
 }
 
-// HegelSpec specifies the details of tinkerbell service hegel.
-type HegelSpec struct {
+// Hegel specifies the details of tinkerbell service hegel.
+type Hegel struct {
 	// Image specifies the details of a tinkerbell services images
-	Image ImageSpec `json:"image"`
+	Image Image `json:"image"`
 
 	// TrustedProxies comma separated allowed CIDRs subnets to be used as trusted proxies
 	TrustedProxies string `json:"trustedProxies"`
 }
 
-// RufioSpec specifies the details of tinkerbell service rufio.
-type RufioSpec struct {
+// Rufio specifies the details of tinkerbell service rufio.
+type Rufio struct {
 	// Image specifies the details of a tinkerbell services images
-	Image ImageSpec `json:"image"`
+	Image Image `json:"image"`
 
 	// TrustedProxies comma separated allowed CIDRs subnets to be used as trusted proxies
 	TrustedProxies string `json:"trustedProxies"`
 }
 
-// TinkSpec specifies the details of tinkerbell service tink server.
-type TinkSpec struct {
+// TinkServer specifies the details of tinkerbell service tink server.
+type TinkServer struct {
 	// Image specifies the details of a tinkerbell services images
-	Image ImageSpec `json:"image"`
+	Image Image `json:"image"`
 
 	// TinkerbellTLS sets if the tink server should run with TLS or not.
 	TinkerbellTLS bool `json:"tinkerbellTLS"`
