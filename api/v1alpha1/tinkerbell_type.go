@@ -21,58 +21,58 @@ type Tinkerbell struct {
 
 // TinkerbellSpec specifies details of an Tinkerbell setup.
 type TinkerbellSpec struct {
-	// TinkerbellVersion is the tinkerbell crd version.
+	// TinkerbellVersion is the Tinkerbell CRD version.
 	TinkerbellVersion string `json:"tinkerbellVersion"`
 
-	// ClusterDNS is the ip address of the cluster dns resolver.
+	// ClusterDNS is the IP address of the cluster DNS resolver.
 	ClusterDNS string `json:"clusterDNS"`
 
-	// OverwriteRegistry is the registry to use for all images. If this field is set, all tink service deployment images
+	// Registry is the registry to use for all images. If this field is set, all tink service deployment images
 	// will be prefixed with this value. For example if the value here was set to docker.io, then boots image will be
 	// docker.io/tinkerbell/boots.
-	OverwriteRegistry string `json:"overwriteRegistry"`
+	Registry string `json:"registry"`
 
-	// DockerPullConfig the secret name containing the docker auth config which should exist in the same namespace where
+	// ImagePullSecret the secret name containing the docker auth config which should exist in the same namespace where
 	// the operator is deployed(typically tinkerbell)
-	DockerPullComfig string `json:"dockerPullComfig"`
+	ImagePullSecret []string `json:"imagePullSecret"`
 
 	// Boots contains all the information and spec about boots.
 	Boots BootsSpec `json:"boots"`
+
 	// Hegel contains all the information and spec about boots.
 	Hegel HegelSpec `json:"hegel"`
+
 	// Rufio contains all the information and spec about rufio.
 	Rufio RufioSpec `json:"rufio"`
+
 	// Tink contains all the information and spec about tink.
 	Tink TinkSpec `json:"tink"`
 }
 
 // ImageSpec specifies the details of a tinkerbell services images.
 type ImageSpec struct {
-	// ImageRepository is used to set the BootsSpec image repository.
-	ImageRepository string `json:"imageRepository,omitempty"`
+	// Repository is used to set the image repository for tinkerbell services.
+	Repository string `json:"repository,omitempty"`
 
-	// ImageTag is used to set the BootsSpec image tag.
-	ImageTag string `json:"imageTag,omitempty"`
+	// Tag is used to set the image tag for tinkerbell services.
+	Tag string `json:"tag,omitempty"`
 }
 
-// BootsSpec specifies the details of tinkerbell service boots.
+// BootsSpec specifies the deployment details of Tinkerbell service, Boots.
 type BootsSpec struct {
 	// Image specifies the details of a tinkerbell services images
 	Image ImageSpec `json:"image"`
 
-	// DHCPAddress set the ip and port to listen on for DHCP.
-	DHCPAddress string `json:"dhcpAddress"`
+	// DHCPAddressListener set the ip and port to listen on for DHCP.
+	DHCPAddressListener string `json:"dhcpAddress"`
 
 	// TrustedProxies comma separated allowed CIDRs subnets to be used as trusted proxies
 	TrustedProxies string `json:"trustedProxies"`
 
-	// FacilityCode represents the facility in use.
-	FacilityCode string `json:"facilityCode"`
-
 	// HTTPBind is the port to listen on for the serving iPXE binaries and files via HTTP.
 	HTTPBind int `json:"httpBind"`
 
-	// MirrorBaseURL the URL from where the "OSIE" or Hook kernel(s) and initrd(s) will be downloaded by netboot clients
+	// MirrorBaseURL is the URL for downloading an in-memory os such as Hook.
 	MirrorBaseURL string `json:"mirrorBaseURL"`
 
 	// OSIEPathOverride override the URL where OSIE/Hook images are located
@@ -84,10 +84,10 @@ type BootsSpec struct {
 	// PublicSyslogFQDN is the IP that syslog clients will use to send messages
 	PublicSyslogFQDN string `json:"publicSyslogFQDN"`
 
-	// SyslogBind is the port that syslog clients will use to send messages
-	SyslogBind int `json:"syslogBind"`
+	// SyslogAddress is the IP and port that syslog clients will use to send messages
+	SyslogAddress string `json:"syslogAddress"`
 
-	// TinkerbellGRPCAuthority is the IP:Port that a Tink worker will use for communicated with the Tink server
+	// TinkerbellGRPCAuthority IP and port to listen on for syslog messages.
 	TinkerbellGRPCAuthority string `json:"tinkerbellGRPCAuthority"`
 
 	// TinkerbellTLS sets if the boots should run with TLS or not.
