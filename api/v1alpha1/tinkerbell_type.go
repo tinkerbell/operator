@@ -16,13 +16,13 @@ type Tinkerbell struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	// Spec describes the desired tinkerbell stack state.
-	Spec TinkerbellSpec `json:"spec,omitempty"`
+	Spec TinkerbellStackSpec `json:"spec,omitempty"`
 }
 
-// TinkerbellSpec specifies details of an Tinkerbell setup.
-type TinkerbellSpec struct {
-	// TinkerbellVersion is the Tinkerbell CRD version.
-	TinkerbellVersion string `json:"tinkerbellVersion"`
+// TinkerbellStackSpec specifies details of an Tinkerbell setup.
+type TinkerbellStackSpec struct {
+	// Version is the Tinkerbell CRD version.
+	Version string `json:"version"`
 
 	// ClusterDNS is the IP address of the cluster DNS resolver.
 	ClusterDNS string `json:"clusterDNS"`
@@ -36,6 +36,12 @@ type TinkerbellSpec struct {
 	// the operator is deployed(typically tinkerbell)
 	ImagePullSecret []string `json:"imagePullSecret"`
 
+	// Services contains all Tinkerbell Stack services.
+	Services Services `json:"services"`
+}
+
+// Services contains all Tinkerbell Stack services.
+type Services struct {
 	// Boots contains all the information and spec about boots.
 	Boots Boots `json:"boots"`
 
@@ -52,15 +58,6 @@ type TinkerbellSpec struct {
 	TinkController Image `json:"tinkController"`
 }
 
-// Image specifies the details of a tinkerbell services images.
-type Image struct {
-	// Repository is used to set the image repository for tinkerbell services.
-	Repository string `json:"repository,omitempty"`
-
-	// Tag is used to set the image tag for tinkerbell services.
-	Tag string `json:"tag,omitempty"`
-}
-
 // Boots specifies the deployment details of Tinkerbell service, Boots.
 type Boots struct {
 	// Image specifies the details of a tinkerbell services images
@@ -74,9 +71,6 @@ type Boots struct {
 
 	// HTTPAddress is the address to listen on for the serving iPXE binaries and files via HTTP.
 	HTTPAddress string `json:"httpAddress"`
-
-	// MirrorBaseURL is the URL for downloading an in-memory os such as Hook.
-	MirrorBaseURL string `json:"mirrorBaseURL"`
 
 	// OSIEURL override the URL where OSIE/Hook images are located
 	OSIEURL string `json:"osieURL"`
@@ -125,4 +119,13 @@ type TinkServer struct {
 
 	// TinkerbellTLS sets if the tink server should run with TLS or not.
 	TinkerbellTLS bool `json:"tinkerbellTLS"`
+}
+
+// Image specifies the details of a tinkerbell services images.
+type Image struct {
+	// Repository is used to set the image repository for tinkerbell services.
+	Repository string `json:"repository,omitempty"`
+
+	// Tag is used to set the image tag for tinkerbell services.
+	Tag string `json:"tag,omitempty"`
 }
