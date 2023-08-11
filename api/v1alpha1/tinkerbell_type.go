@@ -24,8 +24,9 @@ type TinkerbellStackSpec struct {
 	// Version is the Tinkerbell CRD version.
 	Version string `json:"version"`
 
-	// ClusterDNS is the IP address of the cluster DNS resolver.
-	ClusterDNS string `json:"clusterDNS"`
+	// DNSResolverIP is indicative of the resolver IP utilized for setting up the nginx server responsible for proxying
+	// to the Tinkerbell service and serving the Hook artifacts.
+	DNSResolverIP string `json:"dnsResolverIP"`
 
 	// Registry is the registry to use for all images. If this field is set, all tink service deployment images
 	// will be prefixed with this value. For example if the value here was set to docker.io, then boots image will be

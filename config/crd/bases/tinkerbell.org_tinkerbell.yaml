@@ -44,7 +44,9 @@ spec:
             description: Spec describes the desired tinkerbell stack state.
             properties:
               clusterDNS:
-                description: ClusterDNS is the IP address of the cluster DNS resolver.
+                description: DNSResolverIP is indicative of the resolver IP utilized
+                  for setting up the nginx server responsible for proxying to the
+                  Tinkerbell service and serving the Hook artifacts.
                 type: string
               imagePullSecret:
                 description: ImagePullSecret the secret name containing the docker
