@@ -52,10 +52,10 @@ type Tinkerbell struct {
 ```go
 // TinkerbellSpec specifies details of an Tinkerbell setup.
 type TinkerbellSpec struct {
-    // TinkerbellVersion is the tinkerbell crd version.
+    // TinkerbellVersion is the Tinkerbell CRD version.
     TinkerbellVersion string `json:"tinkerbellVersion"`
     
-    // ClusterDNS is the ip address of the cluster dns resolver.
+    // ClusterDNS is the IP address of the cluster DNS resolver.
     ClusterDNS string `json:"clusterDNS"`
 	
     // OverwriteRegistry is the registry to use for all images. If this field is set, all tink service deployment images
@@ -97,14 +97,11 @@ type BootsSpec struct {
     // Image specifies the details of a tinkerbell services images
     Image ImageSpec `json:"image"`
     
-    // DHCPAddress set the ip and port to listen on for DHCP.
-    DHCPAddress string `json:"dhcpAddress"`
+    // DHCPAddressListener set the ip and port to listen on for DHCP.
+    DHCPAddressListener string `json:"dhcpAddress"`
 	
     // TrustedProxies comma separated allowed CIDRs subnets to be used as trusted proxies
     TrustedProxies string `json:"trustedProxies"`
-
-    // FacilityCode represents the facility in use.
-    FacilityCode string `json:"facilityCode"`
 	
     // HTTPBind is the port to listen on for the serving iPXE binaries and files via HTTP.
     HTTPBind int `json:"httpBind"`

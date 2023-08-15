@@ -250,7 +250,7 @@ func CreateTinkStackDeployment(ctx context.Context, client ctrlruntimeclient.Cli
 								"sha512sum -c, checksums.txt && exit 0",
 								"apk add wget",
 								"echo downloading HOOK...",
-								"wget -O /tmp/hook0.tar.gz https: //github.com/tinkerbell/hook/releases/download/v0.7.0/hook_x86_64.tar.gz;",
+								"wget -O /tmp/hook0.tar.gz https://github.com/tinkerbell/hook/releases/download/v0.7.0/hook_x86_64.tar.gz;",
 								"tar -zxvf /tmp/hook0.tar.gz -C \"/usr/share/nginx/html/\"",
 								"rm -rf /tmp/hook0.tar.gz",
 								"apk add wget",

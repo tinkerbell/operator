@@ -7,12 +7,14 @@ export GO111MODULE=on
 export GOFLAGS?=-mod=readonly -trimpath
 export GIT_TAG ?= $(shell git tag --points-at HEAD)
 
-GO_VERSION = 1.20.1
+GO_VERSION = 1.19
 GO 				?= go
 GOOS 	?= $(shell go env GOOS)
 GOLANGCI_LINT := $(GO) run github.com/golangci/golangci-lint/cmd/golangci-lint@v1.52
 GOFUMPT 		:= $(GO) run mvdan.cc/gofumpt@v0.4
 GOARCH 	?= $(shell go env GOARCH)
+YAMLFMT			:= $(GO) run github.com/google/yamlfmt/cmd/yamlfmt@v0.6
+CONTROLLER_GEN 	:= $(GO) run sigs.k8s.io/controller-tools/cmd/controller-gen
 
 CMD = $(notdir $(wildcard ./cmd/*))
 BUILD_DEST ?= _build
@@ -84,6 +86,13 @@ $(YAMLLINT_BIN):
 yamllint: $(YAMLLINT_BIN)
 	PYTHONPATH=$(YAMLLINT_ROOT)/dist $(YAMLLINT_ROOT)/dist/bin/yamllint .
 
+.PHONY: generate-crds
+generate-crds:
+	$(CONTROLLER_GEN) \
+        paths="./api/..." \
+        object:headerFile="hack/boilerplate/boilerplate.generatego.txt" \
+        crd \
+        output:crd:dir=./config/crd/bases
 
 .PHONY: vendor
 vendor: buildenv
