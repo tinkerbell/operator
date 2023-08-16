@@ -4,7 +4,7 @@ import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 // +kubebuilder:object:root=true
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-// +kubebuilder:resource:path=stack,scope=Namespaced,categories=stack,singular=stack,shortName=tb
+// +kubebuilder:resource:path=stack,scope=Namespaced,categories=stack,singular=stack
 // +kubebuilder:storageversion
 
 // Stack represents the tinkerbell stack that is being deployed in the kubernetes where the operator is deployed.
@@ -33,9 +33,9 @@ type StackSpec struct {
 	// docker.io/tinkerbell/boots.
 	Registry string `json:"registry,omitempty"`
 
-	// ImagePullSecret the secret name containing the docker auth config which should exist in the same namespace where
+	// ImagePullSecrets the secret name containing the docker auth config which should exist in the same namespace where
 	// the operator is deployed(typically tinkerbell)
-	ImagePullSecret []string `json:"imagePullSecret,omitempty"`
+	ImagePullSecrets []string `json:"imagePullSecrets,omitempty"`
 
 	// Services contains all Tinkerbell Stack services.
 	Services Services `json:"services,omitempty"`

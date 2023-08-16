@@ -4,17 +4,15 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.12.1
-  name: stack.operator.tinkerbell.org
+  name: stack.tinkerbell.org
 spec:
-  group: operator.tinkerbell.org
+  group: tinkerbell.org
   names:
     categories:
     - stack
     kind: Stack
     listKind: StackList
     plural: stack
-    shortNames:
-    - tb
     singular: stack
   scope: Namespaced
   versions:
@@ -43,18 +41,18 @@ spec:
           spec:
             description: Spec describes the desired tinkerbell stack state.
             properties:
-              dnsResolverIP:
-                description: DNSResolverIP is indicative of the resolver IP utilized
-                  for setting up the nginx server responsible for proxying to the
-                  Tinkerbell service and serving the Hook artifacts.
-                type: string
-              imagePullSecret:
-                description: ImagePullSecret the secret name containing the docker
+              ImagePullSecrets:
+                description: ImagePullSecrets the secret name containing the docker
                   auth config which should exist in the same namespace where the operator
                   is deployed(typically tinkerbell)
                 items:
                   type: string
                 type: array
+              dnsResolverIP:
+                description: DNSResolverIP is indicative of the resolver IP utilized
+                  for setting up the nginx server responsible for proxying to the
+                  Tinkerbell service and serving the Hook artifacts.
+                type: string
               registry:
                 description: Registry is the registry to use for all images. If this
                   field is set, all tink service deployment images will be prefixed
