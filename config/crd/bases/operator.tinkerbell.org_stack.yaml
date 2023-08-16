@@ -4,27 +4,27 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.12.1
-  name: tinkerbell.tinkerbell.org
+  name: stack.operator.tinkerbell.org
 spec:
-  group: tinkerbell.org
+  group: operator.tinkerbell.org
   names:
     categories:
-    - tinkerbell
-    kind: Tinkerbell
-    listKind: TinkerbellList
-    plural: tinkerbell
+    - stack
+    kind: Stack
+    listKind: StackList
+    plural: stack
     shortNames:
     - tb
-    singular: tinkerbell
+    singular: stack
   scope: Namespaced
   versions:
   - name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Tinkerbell represents the tinkerbell stack that is being deployed
+        description: Stack represents the tinkerbell stack that is being deployed
           in the kubernetes where the operator is deployed. Tinkerbell operator watches
           for different resources such as deployment, services, serviceAccounts, etc.
-          One of those CRs is Tinkerbell which the operator will install the tink-stack
+          One of those CRs is Stack which the operator will install the tink-stack
           based on its specs. Once the CR is deleted, the operator will delete all
           tinkerbell resources.
         properties:
@@ -43,7 +43,7 @@ spec:
           spec:
             description: Spec describes the desired tinkerbell stack state.
             properties:
-              clusterDNS:
+              dnsResolverIP:
                 description: DNSResolverIP is indicative of the resolver IP utilized
                   for setting up the nginx server responsible for proxying to the
                   Tinkerbell service and serving the Hook artifacts.
@@ -68,7 +68,7 @@ spec:
                     description: Boots contains all the information and spec about
                       boots.
                     properties:
-                      dhcpAddress:
+                      dhcpAddressListener:
                         description: DHCPAddressListener set the ip and port to listen
                           on for DHCP.
                         type: string
@@ -119,19 +119,9 @@ spec:
                       trustedProxies:
                         description: TrustedProxies comma separated allowed CIDRs
                           subnets to be used as trusted proxies
-                        type: string
-                    required:
-                    - dhcpAddress
-                    - httpAddress
-                    - image
-                    - logLevel
-                    - osieURL
-                    - publicIP
-                    - publicSyslogFQDN
-                    - syslogAddress
-                    - tinkerbellGRPCAuthority
-                    - tinkerbellTLS
-                    - trustedProxies
+                        items:
+                          type: string
+                        type: array
                     type: object
                   hegel:
                     description: Hegel contains all the information and spec about
@@ -153,10 +143,9 @@ spec:
                       trustedProxies:
                         description: TrustedProxies comma separated allowed CIDRs
                           subnets to be used as trusted proxies
-                        type: string
-                    required:
-                    - image
-                    - trustedProxies
+                        items:
+                          type: string
+                        type: array
                     type: object
                   rufio:
                     description: Rufio contains all the information and spec about
@@ -178,23 +167,27 @@ spec:
                       trustedProxies:
                         description: TrustedProxies comma separated allowed CIDRs
                           subnets to be used as trusted proxies
-                        type: string
-                    required:
-                    - image
-                    - trustedProxies
+                        items:
+                          type: string
+                        type: array
                     type: object
                   tinkController:
                     description: TinkController contains all the information and spec
                       about tink controller.
                     properties:
-                      repository:
-                        description: Repository is used to set the image repository
-                          for tinkerbell services.
-                        type: string
-                      tag:
-                        description: Tag is used to set the image tag for tinkerbell
-                          services.
-                        type: string
+                      image:
+                        description: Image specifies the details of a tinkerbell services
+                          images
+                        properties:
+                          repository:
+                            description: Repository is used to set the image repository
+                              for tinkerbell services.
+                            type: string
+                          tag:
+                            description: Tag is used to set the image tag for tinkerbell
+                              services.
+                            type: string
+                        type: object
                     type: object
                   tinkServer:
                     description: TinkServer contains all the information and spec
@@ -217,27 +210,16 @@ spec:
                         description: TinkerbellTLS sets if the tink server should
                           run with TLS or not.
                         type: boolean
-                    required:
-                    - image
-                    - tinkerbellTLS
                     type: object
-                required:
-                - boots
-                - hegel
-                - rufio
-                - tinkController
-                - tinkServer
                 type: object
               version:
                 description: Version is the Tinkerbell CRD version.
                 type: string
             required:
-            - clusterDNS
-            - imagePullSecret
-            - registry
-            - services
             - version
             type: object
+        required:
+        - spec
         type: object
     served: true
     storage: true
