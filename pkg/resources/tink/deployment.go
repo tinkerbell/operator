@@ -143,17 +143,17 @@ func CreateTinkServerDeployment(ctx context.Context, client ctrlruntimeclient.Cl
 	return nil
 }
 
-func CreateTinkStackDeployment(ctx context.Context, client ctrlruntimeclient.Client, ns string) error {
+func CreateNginxDeployment(ctx context.Context, client ctrlruntimeclient.Client, ns string) error {
 	deployment := &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      "tink-stack",
+			Name:      "nginx-server",
 			Namespace: ns,
 		},
 		Spec: appsv1.DeploymentSpec{
 			Replicas: ptr.Int32(1),
 			Selector: &metav1.LabelSelector{
 				MatchLabels: map[string]string{
-					"app": "tink-stack",
+					"app": "nginx-server",
 				},
 			},
 			Template: corev1.PodTemplateSpec{
@@ -163,13 +163,13 @@ func CreateTinkStackDeployment(ctx context.Context, client ctrlruntimeclient.Cli
 						"checksum/config": "75fffb14e7848a2319212c0422af0eb693157e9359a7cd10b59518125ad9822a",
 					},
 					Labels: map[string]string{
-						"app": "tink-stack",
+						"app": "nginx-server",
 					},
 				},
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{
 						{
-							Name:            "tink-stack",
+							Name:            "nginx-server",
 							Image:           "nginx:1.23.1",
 							ImagePullPolicy: corev1.PullIfNotPresent,
 							Command:         []string{"/bin/bash", "-c"},
