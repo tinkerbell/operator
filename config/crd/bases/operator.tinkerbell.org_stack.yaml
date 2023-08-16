@@ -164,12 +164,6 @@ spec:
                               services.
                             type: string
                         type: object
-                      trustedProxies:
-                        description: TrustedProxies comma separated allowed CIDRs
-                          subnets to be used as trusted proxies
-                        items:
-                          type: string
-                        type: array
                     type: object
                   tinkController:
                     description: TinkController contains all the information and spec

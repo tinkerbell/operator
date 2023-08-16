@@ -108,9 +108,6 @@ type Hegel struct {
 type Rufio struct {
 	// Image specifies the details of a tinkerbell services images
 	Image Image `json:"image,omitempty"`
-
-	// TrustedProxies comma separated allowed CIDRs subnets to be used as trusted proxies
-	TrustedProxies []string `json:"trustedProxies,omitempty"`
 }
 
 // TinkServer specifies the details of tinkerbell service tink server.
