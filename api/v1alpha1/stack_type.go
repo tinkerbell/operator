@@ -25,7 +25,7 @@ type StackSpec struct {
 	Version string `json:"version"`
 
 	// DNSResolverIP is indicative of the resolver IP utilized for setting up the nginx server responsible for proxying
-	// to the Tinkerbell service and serving the Hook artifacts.
+	// to the Tinkerbell services and serving the Hook artifacts.
 	DNSResolverIP string `json:"dnsResolverIP,omitempty"`
 
 	// Registry is the registry to use for all images. If this field is set, all tink service deployment images
@@ -73,7 +73,7 @@ type Boots struct {
 	// HTTPAddress is the address to listen on for the serving iPXE binaries and files via HTTP.
 	HTTPAddress string `json:"httpAddress,omitempty"`
 
-	// OSIEURL override the URL where OSIE/Hook images are located
+	// OSIEURL override the URL where OSIE/Hook image is located
 	OSIEURL string `json:"osieURL,omitempty"`
 
 	// PublicIP is the IP that netboot clients and/or DHCP relay's will use to reach Boots
@@ -88,8 +88,8 @@ type Boots struct {
 	// TinkerbellGRPCAuthority IP and port to listen on for syslog messages.
 	TinkerbellGRPCAuthority string `json:"tinkerbellGRPCAuthority,omitempty"`
 
-	// TinkerbellTLS sets if the boots should run with TLS or not.
-	TinkerbellTLS bool `json:"tinkerbellTLS,omitempty"`
+	// EnableTLS sets if the boots should run with TLS or not.
+	EnableTLS bool `json:"enableTLS,omitempty"`
 
 	// LogLevel sets the debug level for boots.
 	LogLevel string `json:"logLevel,omitempty"`
@@ -115,8 +115,8 @@ type TinkServer struct {
 	// Image specifies the details of a tinkerbell services images
 	Image Image `json:"image,omitempty"`
 
-	// TinkerbellTLS sets if the tink server should run with TLS or not.
-	TinkerbellTLS bool `json:"tinkerbellTLS,omitempty"`
+	// EnableTLS sets if the tink server should run with TLS or not.
+	EnableTLS bool `json:"enableTLS,omitempty"`
 }
 
 // TinkController specifies the details of tinkerbell service tink controller.

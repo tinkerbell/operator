@@ -41,18 +41,18 @@ spec:
           spec:
             description: Spec describes the desired tinkerbell stack state.
             properties:
-              ImagePullSecrets:
+              dnsResolverIP:
+                description: DNSResolverIP is indicative of the resolver IP utilized
+                  for setting up the nginx server responsible for proxying to the
+                  Tinkerbell services and serving the Hook artifacts.
+                type: string
+              imagePullSecrets:
                 description: ImagePullSecrets the secret name containing the docker
                   auth config which should exist in the same namespace where the operator
                   is deployed(typically tinkerbell)
                 items:
                   type: string
                 type: array
-              dnsResolverIP:
-                description: DNSResolverIP is indicative of the resolver IP utilized
-                  for setting up the nginx server responsible for proxying to the
-                  Tinkerbell service and serving the Hook artifacts.
-                type: string
               registry:
                 description: Registry is the registry to use for all images. If this
                   field is set, all tink service deployment images will be prefixed
@@ -70,6 +70,10 @@ spec:
                         description: DHCPAddressListener set the ip and port to listen
                           on for DHCP.
                         type: string
+                      enableTLS:
+                        description: EnableTLS sets if the boots should run with TLS
+                          or not.
+                        type: boolean
                       httpAddress:
                         description: HTTPAddress is the address to listen on for the
                           serving iPXE binaries and files via HTTP.
@@ -91,8 +95,8 @@ spec:
                         description: LogLevel sets the debug level for boots.
                         type: string
                       osieURL:
-                        description: OSIEURL override the URL where OSIE/Hook images
-                          are located
+                        description: OSIEURL override the URL where OSIE/Hook image
+                          is located
                         type: string
                       publicIP:
                         description: PublicIP is the IP that netboot clients and/or
@@ -110,10 +114,6 @@ spec:
                         description: TinkerbellGRPCAuthority IP and port to listen
                           on for syslog messages.
                         type: string
-                      tinkerbellTLS:
-                        description: TinkerbellTLS sets if the boots should run with
-                          TLS or not.
-                        type: boolean
                       trustedProxies:
                         description: TrustedProxies comma separated allowed CIDRs
                           subnets to be used as trusted proxies
@@ -185,6 +185,10 @@ spec:
                     description: TinkServer contains all the information and spec
                       about tink server.
                     properties:
+                      enableTLS:
+                        description: EnableTLS sets if the tink server should run
+                          with TLS or not.
+                        type: boolean
                       image:
                         description: Image specifies the details of a tinkerbell services
                           images
@@ -198,10 +202,6 @@ spec:
                               services.
                             type: string
                         type: object
-                      tinkerbellTLS:
-                        description: TinkerbellTLS sets if the tink server should
-                          run with TLS or not.
-                        type: boolean
                     type: object
                 type: object
               version:
