@@ -1,6 +1,3 @@
-// +kubebuilder:object:generate=true
-// +groupName=tinkerbell.org
-
 package v1alpha1
 
 import (

@@ -143,7 +143,7 @@ func (r *Reconciler) ensureTinkerbellDeployments(ctx context.Context) error {
 		return fmt.Errorf("failed to create tink server deployment: %v", err)
 	}
 
-	if err := tink.CreateTinkStackDeployment(ctx, r.Client, r.namespace); err != nil {
+	if err := tink.CreateNginxDeployment(ctx, r.Client, r.namespace); err != nil {
 		return fmt.Errorf("failed to create tink stack deployment: %v", err)
 	}
 
