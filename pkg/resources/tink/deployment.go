@@ -177,22 +177,22 @@ func CreateNginxDeployment(ctx context.Context, client ctrlruntimeclient.Client,
 							Ports: []corev1.ContainerPort{
 								{
 									ContainerPort: int32(67),
-									Name:          "boots-dhcp",
+									Name:          "smee-dhcp",
 									Protocol:      corev1.ProtocolUDP,
 								},
 								{
 									ContainerPort: int32(80),
-									Name:          "boots-http",
+									Name:          "smee-http",
 									Protocol:      corev1.ProtocolTCP,
 								},
 								{
 									ContainerPort: int32(69),
-									Name:          "boots-tftp",
+									Name:          "smee-tftp",
 									Protocol:      corev1.ProtocolUDP,
 								},
 								{
 									ContainerPort: int32(514),
-									Name:          "boots-syslog",
+									Name:          "smee-syslog",
 									Protocol:      corev1.ProtocolUDP,
 								},
 								{

@@ -59,17 +59,17 @@ type TinkerbellSpec struct {
     ClusterDNS string `json:"clusterDNS"`
 	
     // OverwriteRegistry is the registry to use for all images. If this field is set, all tink service deployment images
-    // will be prefixed with this value. For example if the value here was set to docker.io, then boots image will be 
-    // docker.io/tinkerbell/boots.
+    // will be prefixed with this value. For example if the value here was set to docker.io, then smee image will be 
+    // docker.io/tinkerbell/smee.
     OverwriteRegistry string `json:"overwriteRegistry"`
     
     // DockerPullConfig the secret name containing the docker auth config which should exist in the same namespace where 
     // the operator is deployed(typically tinkerbell)
     DockerPullComfig string `json:"dockerPullComfig"`
 	
-    // Boots contains all the information and spec about boots.
-    Boots BootsSpec `json:"boots"`
-    // Hegel contains all the information and spec about boots.
+    // Smee contains all the information and spec about smee.
+    Smee SmeeSpec `json:"smee"`
+    // Hegel contains all the information and spec about smee.
     Hegel HegelSpec `json:"hegel"`
     // Rufio contains all the information and spec about rufio.
     Rufio RufioSpec `json:"rufio"` 	
@@ -82,18 +82,18 @@ type TinkerbellSpec struct {
 ```go
 // ImageSpec specifies the details of a tinkerbell services images.
 type ImageSpec struct {
-    // ImageRepository is used to set the BootsSpec image repository.
+    // ImageRepository is used to set the SmeeSpec image repository.
     ImageRepository string `json:"imageRepository,omitempty"`
     
-    // ImageTag is used to set the BootsSpec image tag.
+    // ImageTag is used to set the SmeeSpec image tag.
     ImageTag string `json:"imageTag,omitempty"`
 }
 ```
 
-#### BootsSpec
+#### SmeeSpec
 ```go
-// BootsSpec specifies the details of tinkerbell service boots.
-type BootsSpec struct {
+// SmeeSpec specifies the details of tinkerbell service smee.
+type SmeeSpec struct {
     // Image specifies the details of a tinkerbell services images
     Image ImageSpec `json:"image"`
     
@@ -112,7 +112,7 @@ type BootsSpec struct {
     // OSIEPathOverride override the URL where OSIE/Hook images are located
     OSIEPathOverride string `json:"osiePathOverride"`    	
 	
-    // PublicIP is the IP that netboot clients and/or DHCP relay's will use to reach Boots
+    // PublicIP is the IP that netboot clients and/or DHCP relay's will use to reach Smee
     PublicIP string `json:"publicIP"`
 	
     // PublicSyslogFQDN is the IP that syslog clients will use to send messages
@@ -124,10 +124,10 @@ type BootsSpec struct {
     // TinkerbellGRPCAuthority is the IP:Port that a Tink worker will use for communicated with the Tink server	
     TinkerbellGRPCAuthority	string `json:"tinkerbellGRPCAuthority"`
 	
-    // TinkerbellTLS sets if the boots should run with TLS or not.	
+    // TinkerbellTLS sets if the smee should run with TLS or not.	
     TinkerbellTLS bool `json:"tinkerbellTLS"`
 
-    // LogLevel sets the debug level for boots.
+    // LogLevel sets the debug level for smee.
     logLevel string `json:"logLevel"`	
 }
 ```

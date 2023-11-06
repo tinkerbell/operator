@@ -1,4 +1,4 @@
-package boots
+package smee
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	serviceAccountName = "boots"
+	serviceAccountName = "smee"
 )
 
 func CreateServiceAccount(ctx context.Context, client ctrlruntimeclient.Client, ns string) error {

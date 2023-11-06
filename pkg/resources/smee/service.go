@@ -1,4 +1,4 @@
-package boots
+package smee
 
 import (
 	"context"
@@ -13,38 +13,38 @@ import (
 func CreateService(ctx context.Context, client ctrlruntimeclient.Client, ns string) error {
 	service := &corev1.Service{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      "boots",
+			Name:      "smee",
 			Namespace: ns,
 			Labels: map[string]string{
-				"app": "boots",
+				"app": "smee",
 			},
 		},
 		Spec: corev1.ServiceSpec{
 			ClusterIP: "None",
 			Selector: map[string]string{
-				"app": "boots",
+				"app": "smee",
 			},
 			Ports: []corev1.ServicePort{
 				{
-					Name:       "boots-dhcp",
+					Name:       "smee-dhcp",
 					Port:       67,
 					TargetPort: intstr.FromInt(67),
 					Protocol:   corev1.ProtocolUDP,
 				},
 				{
-					Name:       "boots-http",
+					Name:       "smee-http",
 					Port:       80,
 					TargetPort: intstr.FromInt(80),
 					Protocol:   corev1.ProtocolTCP,
 				},
 				{
-					Name:       "boots-syslog",
+					Name:       "smee-syslog",
 					Port:       514,
 					TargetPort: intstr.FromInt(514),
 					Protocol:   corev1.ProtocolUDP,
 				},
 				{
-					Name:       "boots-tftp",
+					Name:       "smee-tftp",
 					Port:       69,
 					TargetPort: intstr.FromInt(69),
 					Protocol:   corev1.ProtocolUDP,

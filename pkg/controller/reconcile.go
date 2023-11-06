@@ -4,15 +4,15 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/tinkerbell/operator/pkg/resources/boots"
 	"github.com/tinkerbell/operator/pkg/resources/hegel"
 	"github.com/tinkerbell/operator/pkg/resources/rufio"
+	"github.com/tinkerbell/operator/pkg/resources/smee"
 	"github.com/tinkerbell/operator/pkg/resources/tink"
 )
 
 func (r *Reconciler) ensureTinkerbellServiceAccounts(ctx context.Context) error {
-	if err := boots.CreateServiceAccount(ctx, r.Client, r.namespace); err != nil {
-		return fmt.Errorf("failed to create boots service account: %v", err)
+	if err := smee.CreateServiceAccount(ctx, r.Client, r.namespace); err != nil {
+		return fmt.Errorf("failed to create smee service account: %v", err)
 	}
 
 	if err := hegel.CreateServiceAccount(ctx, r.Client, r.namespace); err != nil {
@@ -35,8 +35,8 @@ func (r *Reconciler) ensureTinkerbellServiceAccounts(ctx context.Context) error 
 }
 
 func (r *Reconciler) ensureTinkerbellClusterRole(ctx context.Context) error {
-	if err := boots.CreateClusterRole(ctx, r.Client); err != nil {
-		return fmt.Errorf("failed to create boots cluster role: %v", err)
+	if err := smee.CreateClusterRole(ctx, r.Client); err != nil {
+		return fmt.Errorf("failed to create smee cluster role: %v", err)
 	}
 
 	if err := rufio.CreateClusterRole(ctx, r.Client); err != nil {
@@ -55,8 +55,8 @@ func (r *Reconciler) ensureTinkerbellClusterRole(ctx context.Context) error {
 }
 
 func (r *Reconciler) ensureTinkerbellClusterRoleBinding(ctx context.Context) error {
-	if err := boots.CreateClusterRoleBinding(ctx, r.Client, r.namespace); err != nil {
-		return fmt.Errorf("failed to create boots cluster role binding: %v", err)
+	if err := smee.CreateClusterRoleBinding(ctx, r.Client, r.namespace); err != nil {
+		return fmt.Errorf("failed to create smee cluster role binding: %v", err)
 	}
 
 	if err := rufio.CreateClusterRoleBinding(ctx, r.Client, r.namespace); err != nil {
@@ -107,8 +107,8 @@ func (r *Reconciler) ensureTinkerbellRoleBinding(ctx context.Context) error {
 }
 
 func (r *Reconciler) ensureTinkerbellServices(ctx context.Context) error {
-	if err := boots.CreateService(ctx, r.Client, r.namespace); err != nil {
-		return fmt.Errorf("failed to create boots service: %v", err)
+	if err := smee.CreateService(ctx, r.Client, r.namespace); err != nil {
+		return fmt.Errorf("failed to create smee service: %v", err)
 	}
 
 	if err := hegel.CreateService(ctx, r.Client, r.namespace); err != nil {
@@ -123,8 +123,8 @@ func (r *Reconciler) ensureTinkerbellServices(ctx context.Context) error {
 }
 
 func (r *Reconciler) ensureTinkerbellDeployments(ctx context.Context) error {
-	if err := boots.CreateDeployment(ctx, r.Client, r.namespace); err != nil {
-		return fmt.Errorf("failed to create boots deployment: %v", err)
+	if err := smee.CreateDeployment(ctx, r.Client, r.namespace); err != nil {
+		return fmt.Errorf("failed to create smee deployment: %v", err)
 	}
 
 	if err := hegel.CreateDeployment(ctx, r.Client, r.namespace); err != nil {
