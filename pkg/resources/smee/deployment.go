@@ -1,4 +1,4 @@
-package boots
+package smee
 
 import (
 	"context"
@@ -15,32 +15,32 @@ import (
 func CreateDeployment(ctx context.Context, client ctrlruntimeclient.Client, ns string) error {
 	deployment := &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      "boots",
+			Name:      "smee",
 			Namespace: ns,
 			Labels: map[string]string{
-				"app": "boots",
+				"app": "smee",
 			},
 		},
 		Spec: appsv1.DeploymentSpec{
 			Replicas: ptr.Int32(1),
 			Selector: &metav1.LabelSelector{
 				MatchLabels: map[string]string{
-					"app":   "boots",
+					"app":   "smee",
 					"stack": "tinkerbell",
 				},
 			},
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
 					Labels: map[string]string{
-						"app":   "boots",
+						"app":   "smee",
 						"stack": "tinkerbell",
 					},
 				},
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{
 						{
-							Name:            "boots",
-							Image:           "quay.io/tinkerbell/boots:v0.8.0",
+							Name:            "smee",
+							Image:           "quay.io/tinkerbell/smee:v0.8.0",
 							ImagePullPolicy: corev1.PullIfNotPresent,
 							Args:            []string{"--dhcp-addr", "0.0.0.0:67", "--kube-namespace", ns},
 							Env:             parsedEnvVars(),
@@ -100,8 +100,8 @@ func parsedEnvVars() []corev1.EnvVar {
 			Value: "http://10.10.15.153",
 		},
 		{
-			Name: "BOOTS_OSIE_PATH_OVERRIDE",
-			// TODO: pass the BOOTS_OSIE_PATH_OVERRIDE as a command line
+			Name: "SMEE_OSIE_PATH_OVERRIDE",
+			// TODO: pass the SMEE_OSIE_PATH_OVERRIDE as a command line
 			Value: "10.10.15.153",
 		},
 		{
@@ -128,11 +128,11 @@ func parsedEnvVars() []corev1.EnvVar {
 			Value: "false",
 		},
 		{
-			Name:  "BOOTS_LOG_LEVEL",
+			Name:  "SMEE_LOG_LEVEL",
 			Value: "debug",
 		},
 		{
-			Name:  "BOOTS_EXTRA_KERNEL_ARGS",
+			Name:  "SMEE_EXTRA_KERNEL_ARGS",
 			Value: "tink_worker_image=quay.io/tinkerbell/tink-worker:v0.8.0",
 		},
 	}

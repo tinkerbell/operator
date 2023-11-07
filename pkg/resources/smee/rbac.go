@@ -1,4 +1,4 @@
-package boots
+package smee
 
 import (
 	"context"
@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	clusterRole        = "boots-cluster-role"
-	clusterRoleBinding = "boots-cluster-role-binding"
+	clusterRole        = "smee-cluster-role"
+	clusterRoleBinding = "smee-cluster-role-binding"
 )
 
 func CreateClusterRole(ctx context.Context, client ctrlruntimeclient.Client) error {

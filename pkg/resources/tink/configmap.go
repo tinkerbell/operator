@@ -65,9 +65,9 @@ http {
       proxy_set_header X-Real-IP $remote_addr;
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
       resolver {{ .ClusterDNS }};
-      set $boots_dns boots.tinkerbell.svc.cluster.local; # needed in Kubernetes for dynamic DNS resolution
+      set $smee_dns smee.tinkerbell.svc.cluster.local; # needed in Kubernetes for dynamic DNS resolution
 
-      proxy_pass http://$boots_dns;
+      proxy_pass http://$smee_dns;
     }
   }
 
@@ -109,8 +109,8 @@ stream {
   server {
       listen 67 udp;
       resolver {{ .ClusterDNS }}; # needed in Kubernetes for dynamic DNS resolution
-      set $boots_dns boots.tinkerbell.svc.cluster.local; # needed in Kubernetes for dynamic DNS resolution
-      proxy_pass $boots_dns:67;
+      set $smee_dns smee.tinkerbell.svc.cluster.local; # needed in Kubernetes for dynamic DNS resolution
+      proxy_pass $smee_dns:67;
       proxy_bind $remote_addr:$remote_port transparent;
       proxy_responses 0;
       access_log /dev/stdout logger-json;
@@ -118,16 +118,16 @@ stream {
   server {
       listen 69 udp;
       resolver {{ .ClusterDNS }};
-      set $boots_dns boots.tinkerbell.svc.cluster.local; # needed in Kubernetes for dynamic DNS resolution
-      proxy_pass $boots_dns:69;
+      set $smee_dns smee.tinkerbell.svc.cluster.local; # needed in Kubernetes for dynamic DNS resolution
+      proxy_pass $smee_dns:69;
       proxy_timeout 1s;
       access_log /dev/stdout logger-json;
   }
   server {
       listen 514 udp;
       resolver {{ .ClusterDNS }};
-      set $boots_dns boots.tinkerbell.svc.cluster.local; # needed in Kubernetes for dynamic DNS resolution
-      proxy_pass $boots_dns:514;
+      set $smee_dns smee.tinkerbell.svc.cluster.local; # needed in Kubernetes for dynamic DNS resolution
+      proxy_pass $smee_dns:514;
       proxy_bind $remote_addr:$remote_port transparent;
       proxy_responses 0;
       access_log /dev/stdout logger-json;

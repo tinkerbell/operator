@@ -7,7 +7,7 @@
 Tinkerbell operator is a Kubernetes operator that deploys Tinkerbell components in a Kubernetes cluster. The operator takes care of 
 the deployment and lifecycle of these Tinkerbell services: 
 
-- **Boots**: The DHCP and iPXE server for Tinkerbell
+- **Smee**: The DHCP and iPXE server for Tinkerbell
 - **Hegel**: An instance metadata service for Tinkerbell
 - **Rufio**: Rufio is a declarative state manager for BMCs
 - **Tink**: A workflow engine for provisioning bare metal
@@ -35,7 +35,7 @@ this upgrade, such as migrating the existing CRs to the new CRDs.
 monitoring the running services and deployments.
 - **Observability**: Observing and reflecting on the changes in the Tinkerbell setup ecosystem (e.g., picking up and deploying 
 new configurations without the need for manual intervention).
-- **Building up the Standards**: Identifying and focusing on Tinkerbell’s essential and standard components (e.g., Boots and Hegel) 
+- **Building up the Standards**: Identifying and focusing on Tinkerbell’s essential and standard components (e.g., Smee and Hegel) 
 without confusing these components with utilities (e.g., KubeVip and Nginx) to introduce a clearer path of what we support 
 out of the box as a community and what we do not.
 
@@ -53,5 +53,5 @@ all the required resources there.
 
 ## Current Stage
 The operator only deploys tinkerbell provisioning components, and it doesn't take care of any other utilities and network plumbings
-(e.g: it doesn't install network services to expose boots). However, we are considering of adding some of these utilities in
+(e.g: it doesn't install network services to expose smee). However, we are considering of adding some of these utilities in
 the future as Addons.
